@@ -9,7 +9,7 @@ import {
 } from "@x402/core/server";
 import { registerExactEvmScheme } from "@x402/evm/exact/server";
 
-import { createErrorEnvelope, hashCanonicalValue } from "@growthbase/core";
+import { createErrorEnvelope, hashCanonicalValue, type ServiceOffer } from "@growthbase/core";
 
 import type { ApiEnv } from "../env";
 import { createOfferDiscovery } from "./catalog";
@@ -156,8 +156,30 @@ class LocalFacilitatorClient implements FacilitatorClient {
   }
 }
 
+export function assertCompatiblePaymentConfig(env: ApiEnv, offer: ServiceOffer) {
+  if (env.x402Network !== offer.network) {
+    throw new Error(
+      `X402_NETWORK (${env.x402Network}) must match offer.network (${offer.network}) so /purchase and /offers advertise the same settlement network.`
+    );
+  }
+}
+
+export function formatAtomicUsdcPriceForX402(priceAtomic: string): string {
+  if (!/^\d+$/.test(priceAtomic)) {
+    throw new Error(`Expected atomic price string, received: ${priceAtomic}`);
+  }
+
+  const decimals = 6;
+  const padded = priceAtomic.padStart(decimals + 1, "0");
+  const whole = padded.slice(0, -decimals).replace(/^0+(?=\d)/, "");
+  const fractional = padded.slice(-decimals).replace(/0+$/, "");
+
+  return fractional ? `${whole}.${fractional}` : whole;
+}
+
 export async function createPaymentServer(env: ApiEnv, serviceAdapter: ServiceAdapter) {
   const offer = serviceAdapter.offer;
+  assertCompatiblePaymentConfig(env, offer);
   const facilitator =
     env.x402Mode === "live"
       ? new HTTPFacilitatorClient({ url: env.x402FacilitatorUrl })
@@ -172,7 +194,7 @@ export async function createPaymentServer(env: ApiEnv, serviceAdapter: ServiceAd
       accepts: {
         scheme: "exact",
         payTo: env.x402PayTo,
-        price: offer.price,
+        price: formatAtomicUsdcPriceForX402(offer.price),
         network: env.x402Network as `${string}:${string}`,
         maxTimeoutSeconds: 60
       },
@@ -197,7 +219,14 @@ export async function createPaymentServer(env: ApiEnv, serviceAdapter: ServiceAd
 
   const httpServer = new x402HTTPResourceServer(resourceServer, routes);
 
-  await httpServer.initialize();
+  try {
+    await httpServer.initialize();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(
+      `Failed to initialize x402 payment server for X402_MODE=${env.x402Mode}, X402_NETWORK=${env.x402Network}, offer.network=${offer.network}, X402_FACILITATOR_URL=${env.x402FacilitatorUrl}. ${message}`
+    );
+  }
 
   return {
     facilitator,

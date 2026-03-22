@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
+import { x402Client, x402HTTPClient } from "@x402/fetch";
 
-import { hiddenEdgeArtifactSchema, hiddenEdgeProofSchema, SERVICE_ID } from "@growthbase/core";
+import { hiddenEdgeArtifactSchema, hiddenEdgeProofSchema, SERVICE_ID, SERVICE_NETWORK, SERVICE_PRICE_ATOMIC } from "@growthbase/core";
 
 import { createHiddenEdgeInput, createSignedPolicy, createTestAgentIdentity, createTestHarness } from "../helpers";
 
@@ -74,6 +75,16 @@ describe("purchase flow", () => {
     expect(unpaid.status).toBe(402);
     expect(unpaid.headers.get("PAYMENT-REQUIRED")).toBeTruthy();
     expect(harness.deps.serviceAdapter.metrics.quoteCount).toBe(1);
+
+    const unpaidBody = await unpaid.json();
+    const challenge = new x402HTTPClient(new x402Client()).getPaymentRequiredResponse(
+      (name) => unpaid.headers.get(name),
+      unpaidBody
+    );
+
+    expect(challenge.accepts[0]?.scheme).toBe("exact");
+    expect(challenge.accepts[0]?.network).toBe(SERVICE_NETWORK);
+    expect(challenge.accepts[0]?.amount).toBe(SERVICE_PRICE_ATOMIC);
 
     const paid = await harness.paidFetch(`http://growthbase.test/purchase/${SERVICE_ID}`, {
       method: "POST",
