@@ -124,7 +124,9 @@ export async function processPurchase(c: any, deps: AppDependencies, serviceId: 
         replayed: run.replayed
       },
       buyerWallet: payer,
-      deliveryStatus: run.deliveryStatus
+      deliveryStatus: run.deliveryStatus,
+      anchorPrivateKey: deps.env.anchorPrivateKey,
+      anchorContractAddress: deps.env.receiptAnchorAddress
     });
 
     return c.json(

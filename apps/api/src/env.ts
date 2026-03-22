@@ -21,7 +21,9 @@ const envSchema = z.object({
   AGENT_WALLET: z.string().regex(/^0x[a-fA-F0-9]{40}$/).default("0x3333333333333333333333333333333333333333"),
   SELLER_WALLET: z.string().regex(/^0x[a-fA-F0-9]{40}$/).default("0x1111111111111111111111111111111111111111"),
   SELLER_IMAGE: z.string().url().default("https://placehold.co/600x600/png"),
-  API_BASE_URL: z.string().url().optional()
+  API_BASE_URL: z.string().url().optional(),
+  ANCHOR_PRIVATE_KEY: z.string().regex(/^0x[a-fA-F0-9]{64}$/).optional(),
+  RECEIPT_ANCHOR_ADDRESS: z.string().regex(/^0x[a-fA-F0-9]{40}$/).optional()
 });
 
 export type ApiEnv = {
@@ -46,6 +48,8 @@ export type ApiEnv = {
   sellerWallet: `0x${string}`;
   sellerImage: string;
   apiBaseUrl: string;
+  anchorPrivateKey?: `0x${string}`;
+  receiptAnchorAddress?: `0x${string}`;
 };
 
 export function loadEnv(source: NodeJS.ProcessEnv = process.env): ApiEnv {
@@ -72,7 +76,9 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): ApiEnv {
     agentWallet: parsed.AGENT_WALLET as `0x${string}`,
     sellerWallet: parsed.SELLER_WALLET as `0x${string}`,
     sellerImage: parsed.SELLER_IMAGE,
-    apiBaseUrl: parsed.API_BASE_URL ?? `http://localhost:${parsed.PORT}`
+    apiBaseUrl: parsed.API_BASE_URL ?? `http://localhost:${parsed.PORT}`,
+    anchorPrivateKey: parsed.ANCHOR_PRIVATE_KEY as `0x${string}` | undefined,
+    receiptAnchorAddress: parsed.RECEIPT_ANCHOR_ADDRESS as `0x${string}` | undefined
   };
 }
 

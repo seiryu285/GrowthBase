@@ -1,5 +1,6 @@
 import { eq } from "drizzle-orm";
 
+import { anchorReceiptOnChain } from "./anchor";
 import {
   CommerceReceipt,
   GrowthBaseError,
@@ -50,6 +51,8 @@ export type AppendCommerceReceiptInput = {
   buyerWallet: `0x${string}`;
   timestamp?: string;
   deliveryStatus?: DeliveryStatus;
+  anchorPrivateKey?: `0x${string}`;
+  anchorContractAddress?: `0x${string}`;
 };
 
 export function appendCommerceReceipt(args: AppendCommerceReceiptInput): CommerceReceipt {
@@ -157,6 +160,17 @@ export function appendCommerceReceipt(args: AppendCommerceReceiptInput): Commerc
       offerJson: serializeJsonColumn(args.offer)
     })
     .run();
+
+  // Fire-and-forget on-chain anchor (non-blocking)
+  if (args.anchorPrivateKey && args.anchorContractAddress) {
+    anchorReceiptOnChain({
+      receiptHash: receipt.receiptHash as `0x${string}`,
+      policyHash: receipt.policyHash as `0x${string}`,
+      artifactHash: receipt.artifactHash as `0x${string}`,
+      privateKey: args.anchorPrivateKey,
+      contractAddress: args.anchorContractAddress
+    }).catch(() => {}); // intentionally swallowed
+  }
 
   return receipt;
 }
