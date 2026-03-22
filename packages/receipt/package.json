@@ -1,0 +1,13 @@
+{
+  "name": "@growthbase/receipt",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@growthbase/core": "workspace:*",
+    "@growthbase/db": "workspace:*",
+    "@growthbase/growth": "workspace:*",
+    "@growthbase/policy": "workspace:*",
+    "drizzle-orm": "0.44.6"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@growthbase/agent-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "demo": "tsx src/index.ts",
+    "proof:oneshot": "tsx src/oneShotProof.ts"
+  },
+  "dependencies": {
+    "@growthbase/core": "workspace:*",
+    "@growthbase/db": "workspace:*",
+    "@growthbase/policy": "workspace:*",
+    "@growthbase/receipt": "workspace:*",
+    "@x402/core": "^2.7.0",
+    "@x402/evm": "^2.7.0",
+    "@x402/fetch": "^2.7.0",
+    "@x402/extensions": "^2.7.0",
+    "viem": "^2.28.0"
+  }
+}

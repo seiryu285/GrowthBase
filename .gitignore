@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Build artifacts
+dist/
+build/
+*.tsbuildinfo
+
+# Environment (keep tracked: .env.example)
+.env
+.env.local
+.env.*.local
+
+# SQLite & local data (see DATABASE_URL / drizzle.config.ts)
+data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test & coverage
+coverage/
+.vitest/
+
+# IDE / editor
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Tooling / deploy
+.turbo/
+.vercel/
+
+# Codex logs
+.codex-logs/

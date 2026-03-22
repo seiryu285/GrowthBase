@@ -1,0 +1,12 @@
+{
+  "name": "@growthbase/growth",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@growthbase/core": "workspace:*",
+    "@growthbase/db": "workspace:*"
+    ,
+    "drizzle-orm": "0.44.6"
+  }
+}

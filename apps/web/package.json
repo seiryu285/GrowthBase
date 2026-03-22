@@ -1,0 +1,19 @@
+{
+  "name": "@growthbase/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev"
+  },
+  "dependencies": {
+    "@growthbase/core": "workspace:*",
+    "@growthbase/db": "workspace:*",
+    "@growthbase/growth": "workspace:*",
+    "@growthbase/policy": "workspace:*",
+    "@growthbase/receipt": "workspace:*",
+    "next": "^15.3.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "viem": "^2.28.0"
+  }
+}
