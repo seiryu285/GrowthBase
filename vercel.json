@@ -1,6 +1,5 @@
 {
-  "buildCommand": "pnpm --filter @growthbase/web build",
-  "outputDirectory": "apps/web/.next",
   "installCommand": "pnpm install --frozen-lockfile",
-  "framework": "nextjs"
+  "buildCommand": "pnpm --filter @growthbase/web build",
+  "outputDirectory": "apps/web/.next"
 }
