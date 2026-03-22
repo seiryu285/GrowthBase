@@ -4,8 +4,18 @@ import { getWebDatabase } from "../../../../lib/api";
 
 export default async function GrowthPage({ params }: { params: Promise<{ agentWallet: string }> }) {
   const { agentWallet } = await params;
-  const database = await getWebDatabase();
-  const entries = deriveGrowthHistory(database, agentWallet);
+
+  let entries: unknown = [];
+  let error: string | null = null;
+
+  try {
+    const database = await getWebDatabase();
+    entries = deriveGrowthHistory(database, agentWallet);
+  } catch (cause) {
+    error = cause instanceof Error ? cause.message : "Failed to load growth history.";
+    entries = [];
+  }
+
   const count = Array.isArray(entries) ? entries.length : 0;
 
   return (
@@ -19,12 +29,22 @@ export default async function GrowthPage({ params }: { params: Promise<{ agentWa
           <code className="address-mono">{agentWallet}</code>
         </p>
         <p className="subpage-subtitle">
-          {count} {count === 1 ? "entry" : "entries"} derived from receipts — every verified delivery compounds here.
+          {error
+            ? "Unable to connect to database — growth entries are unavailable in this environment."
+            : `${count} ${count === 1 ? "entry" : "entries"} derived from receipts — every verified delivery compounds here.`}
         </p>
       </section>
 
       {/* entries */}
-      {count > 0 ? (
+      {error ? (
+        <section className="subpage-card error-card">
+          <div className="card-heading-row">
+            <h3 className="card-heading">Connection error</h3>
+            <span className="status-dot status-error" />
+          </div>
+          <pre className="code-block">{error}</pre>
+        </section>
+      ) : count > 0 ? (
         <section className="growth-list">
           {(entries as any[]).map((entry: any, i: number) => (
             <div key={i} className="subpage-card growth-entry">
