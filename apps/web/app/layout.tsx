@@ -14,20 +14,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <div className="shell">
-          <header className="topbar">
-            <Link href="/" className="topbar-brand">
-              Growth Base
-            </Link>
-            <nav className="nav">
-              <Link href="/">Home</Link>
-              <Link href="/policy">Policy</Link>
-              <Link href="/verify">Verify</Link>
-              <Link href="/identity">Identity</Link>
-            </nav>
-          </header>
-          <main>{children}</main>
-        </div>
+        <header className="topbar">
+          <Link href="/" className="topbar-brand">
+            Growth Base
+          </Link>
+          <nav className="nav">
+            <Link href="/">Home</Link>
+            <Link href="/policy">Policy</Link>
+            <Link href="/verify">Verify</Link>
+            <Link href="/identity">Identity</Link>
+          </nav>
+        </header>
+        <main>{children}</main>
       </body>
     </html>
   );
