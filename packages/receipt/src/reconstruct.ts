@@ -43,8 +43,8 @@ export async function reconstructTransaction(database: GrowthBaseDatabase, recei
   const artifact = hiddenEdgeArtifactSchema.parse(parseJsonColumn<HiddenEdgeScanArtifact>(row.artifactJson));
   const offer = parseJsonColumn<ServiceOffer>(row.offerJson);
   const receipt = getReceiptById(database, receiptId) as CommerceReceipt;
-  const snapshot = loadSnapshot(database, receipt.snapshotHash);
-  const proof = loadProof(database, receipt.proofHash);
+  const snapshot = loadSnapshot(database, receipt.snapshotHash as `0x${string}`);
+  const proof = loadProof(database, receipt.proofHash as `0x${string}`);
   const growthEntry = deriveGrowthEntryFromReceipt(receipt, artifact);
 
   const verification = {
