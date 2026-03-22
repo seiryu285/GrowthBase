@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["nodejs_22", "python3", "gcc", "gnumake"]
+
+[phases.install]
+cmds = ["npm install -g corepack@latest && corepack enable && pnpm install --frozen-lockfile"]
+
+[start]
+cmd = "pnpm --filter @growthbase/db db:migrate && pnpm --filter @growthbase/api start"
