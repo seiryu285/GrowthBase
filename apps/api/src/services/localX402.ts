@@ -7,7 +7,7 @@ import {
   type FacilitatorClient,
   type RoutesConfig
 } from "@x402/core/server";
-import { registerExactEvmScheme } from "@x402/evm/exact/server";
+import { ExactEvmScheme, registerExactEvmScheme } from "@x402/evm/exact/server";
 
 import { createErrorEnvelope, hashCanonicalValue, type ServiceOffer } from "@growthbase/core";
 
@@ -177,9 +177,35 @@ export function formatAtomicUsdcPriceForX402(priceAtomic: string): string {
   return fractional ? `${whole}.${fractional}` : whole;
 }
 
+async function createChallengeAccepts(env: ApiEnv, offer: ServiceOffer) {
+  const formattedX402Price = formatAtomicUsdcPriceForX402(offer.price);
+  const parsedPrice = await new ExactEvmScheme().parsePrice(formattedX402Price, env.x402Network);
+
+  console.info(
+    "X402_CHALLENGE_DEBUG",
+    JSON.stringify({
+      serviceId: offer.serviceId,
+      rawOfferPrice: offer.price,
+      formattedX402Price,
+      network: env.x402Network,
+      asset: parsedPrice.asset,
+      payTo: env.x402PayTo
+    })
+  );
+
+  return {
+    scheme: "exact" as const,
+    payTo: env.x402PayTo,
+    price: formattedX402Price,
+    network: env.x402Network as `${string}:${string}`,
+    maxTimeoutSeconds: 60
+  };
+}
+
 export async function createPaymentServer(env: ApiEnv, serviceAdapter: ServiceAdapter) {
   const offer = serviceAdapter.offer;
   assertCompatiblePaymentConfig(env, offer);
+  const accepts = await createChallengeAccepts(env, offer);
   const facilitator =
     env.x402Mode === "live"
       ? new HTTPFacilitatorClient({ url: env.x402FacilitatorUrl })
@@ -191,13 +217,7 @@ export async function createPaymentServer(env: ApiEnv, serviceAdapter: ServiceAd
 
   const routes: RoutesConfig = {
     [`POST /purchase/${offer.serviceId}`]: {
-      accepts: {
-        scheme: "exact",
-        payTo: env.x402PayTo,
-        price: formatAtomicUsdcPriceForX402(offer.price),
-        network: env.x402Network as `${string}:${string}`,
-        maxTimeoutSeconds: 60
-      },
+      accepts,
       resource: `${env.apiBaseUrl}/purchase/${offer.serviceId}`,
       description: "Purchase one deterministic Polymarket hidden-edge scan.",
       mimeType: "application/json",

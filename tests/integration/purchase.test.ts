@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { x402Client, x402HTTPClient } from "@x402/fetch";
 
 import { hiddenEdgeArtifactSchema, hiddenEdgeProofSchema, SERVICE_ID, SERVICE_NETWORK, SERVICE_PRICE_ATOMIC } from "@growthbase/core";
@@ -53,6 +53,35 @@ describe("purchase flow", () => {
       error: {
         code: "PRICE_EXCEEDS_POLICY"
       }
+    });
+  });
+
+  it("logs x402 challenge debug from the payment server bootstrap path", async () => {
+    const infoSpy = vi.spyOn(console, "info").mockImplementation(() => undefined);
+    cleanups.push(() => infoSpy.mockRestore());
+
+    const harness = await createTestHarness();
+    cleanups.push(harness.close);
+
+    const debugCall = infoSpy.mock.calls.find(([marker]) => marker === "X402_CHALLENGE_DEBUG");
+    expect(debugCall).toBeTruthy();
+
+    const payload = JSON.parse(String(debugCall?.[1])) as {
+      serviceId: string;
+      rawOfferPrice: string;
+      formattedX402Price: string;
+      network: string;
+      asset: string;
+      payTo: string;
+    };
+
+    expect(payload).toMatchObject({
+      serviceId: SERVICE_ID,
+      rawOfferPrice: SERVICE_PRICE_ATOMIC,
+      formattedX402Price: "0.05",
+      network: SERVICE_NETWORK,
+      asset: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      payTo: harness.env.x402PayTo
     });
   });
 
