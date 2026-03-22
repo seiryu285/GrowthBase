@@ -19,51 +19,71 @@ export default async function VerifyPage(props: { searchParams?: Promise<Record<
     }
   }
 
+  const verified = result?.verification.fullyVerified;
+
   return (
-    <div className="page">
-      <section className="card stack">
-        <p className="eyebrow">Receipt verification</p>
-        <h2>Reconstruct one full transaction</h2>
-        <form className="actions" method="get">
-          <input name="receiptId" defaultValue={receiptId} placeholder="receipt_..." />
-          <button className="button" type="submit">
+    <div className="subpage">
+      {/* header */}
+      <section className="subpage-hero">
+        <span className="section-label">VERIFY</span>
+        <h1 className="subpage-title">Reconstruct one full transaction</h1>
+        <p className="subpage-subtitle">
+          Recompute request, snapshot, artifact, and proof hashes — then verify full linkage.
+        </p>
+        <form className="verify-form" method="get">
+          <div className="verify-input-wrap">
+            <span className="verify-prefix">//</span>
+            <input
+              name="receiptId"
+              defaultValue={receiptId}
+              placeholder="receipt_..."
+              className="verify-input"
+            />
+          </div>
+          <button className="btn-primary" type="submit">
             Verify
           </button>
         </form>
       </section>
 
-      {error ? (
-        <section className="card stack">
-          <h3>Verification error</h3>
-          <p className="muted">{error}</p>
+      {error && (
+        <section className="subpage-card error-card">
+          <div className="card-heading-row">
+            <h3 className="card-heading">Verification error</h3>
+            <span className="status-dot status-error" />
+          </div>
+          <p className="subpage-subtitle">{error}</p>
         </section>
-      ) : null}
+      )}
 
-      {result ? (
-        <section className="grid two">
-          <div className="card stack">
-            <h3>Verification status</h3>
-            <span className="pill">{result.verification.fullyVerified ? "Fully verified" : "Verification mismatch"}</span>
-            <pre className="mono">{JSON.stringify(result.verification, null, 2)}</pre>
-          </div>
-          <div className="card stack">
-            <h3>Receipt</h3>
-            <pre className="mono">{JSON.stringify(result.receipt, null, 2)}</pre>
-          </div>
-          <div className="card stack">
-            <h3>Artifact</h3>
-            <pre className="mono">{JSON.stringify(result.artifact, null, 2)}</pre>
-          </div>
-          <div className="card stack">
-            <h3>Snapshot + proof</h3>
-            <pre className="mono">{JSON.stringify({ snapshot: result.snapshot, proof: result.proof }, null, 2)}</pre>
-          </div>
-          <div className="card stack">
-            <h3>Policy + request + growth</h3>
-            <pre className="mono">{JSON.stringify({ policy: result.policy, request: result.request, growth: result.growthEntry }, null, 2)}</pre>
-          </div>
-        </section>
-      ) : null}
+      {result && (
+        <>
+          {/* verification status banner */}
+          <section className={`verify-banner ${verified ? "banner-success" : "banner-warning"}`}>
+            <span className={`status-dot ${verified ? "status-success" : "status-error"}`} />
+            <span className="verify-banner-text">
+              {verified ? "Fully verified — all hashes match" : "Verification mismatch detected"}
+            </span>
+          </section>
+
+          {/* detail grid */}
+          <section className="subpage-grid two">
+            {[
+              { title: "Verification", data: result.verification },
+              { title: "Receipt", data: result.receipt },
+              { title: "Artifact", data: result.artifact },
+              { title: "Snapshot + Proof", data: { snapshot: result.snapshot, proof: result.proof } },
+              { title: "Policy + Request", data: { policy: result.policy, request: result.request } },
+              { title: "Growth entry", data: result.growthEntry },
+            ].map((section) => (
+              <div key={section.title} className="subpage-card">
+                <h3 className="card-heading">{section.title}</h3>
+                <pre className="code-block">{JSON.stringify(section.data, null, 2)}</pre>
+              </div>
+            ))}
+          </section>
+        </>
+      )}
     </div>
   );
 }

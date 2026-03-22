@@ -24,13 +24,13 @@ export default function PolicyPage() {
   const [preview, setPreview] = useState<string>("");
   const [signedPolicy, setSignedPolicy] = useState<string>("");
   const [status, setStatus] = useState("Connect a wallet to sign.");
+  const [isConnected, setIsConnected] = useState(false);
 
   async function connectWallet() {
     if (!window.ethereum) {
       setStatus("No injected wallet detected.");
       return;
     }
-
     const client = createWalletClient({ transport: custom(window.ethereum) });
     const [address] = await client.requestAddresses();
     if (!address) {
@@ -38,7 +38,8 @@ export default function PolicyPage() {
       return;
     }
     setHumanOwner(address);
-    setStatus(`Connected ${address}`);
+    setIsConnected(true);
+    setStatus(`Connected ${address.slice(0, 6)}...${address.slice(-4)}`);
   }
 
   async function buildAndSign() {
@@ -46,18 +47,11 @@ export default function PolicyPage() {
       setStatus("Missing wallet connection or required addresses.");
       return;
     }
-
     const client = createWalletClient({ transport: custom(window.ethereum) });
     const unsignedPolicy = createPolicyPreview({
-      humanOwner,
-      agentWallet,
-      spenderWallet,
-      token,
-      maxTotalSpend,
-      maxPricePerCall,
-      validUntil
+      humanOwner, agentWallet, spenderWallet, token,
+      maxTotalSpend, maxPricePerCall, validUntil
     });
-
     setPreview(JSON.stringify(unsignedPolicy, null, 2));
 
     const signature = await client.signTypedData({
@@ -73,62 +67,70 @@ export default function PolicyPage() {
     setStatus("DelegationPolicy signed.");
   }
 
+  const fields = [
+    { label: "Human owner", value: humanOwner, set: setHumanOwner, mono: true },
+    { label: "Agent wallet", value: agentWallet, set: setAgentWallet, mono: true },
+    { label: "Spender wallet", value: spenderWallet, set: setSpenderWallet, mono: true },
+    { label: "Token", value: token, set: setToken, mono: true },
+    { label: "Max total spend", value: maxTotalSpend, set: setMaxTotalSpend, mono: false },
+    { label: "Max price per call", value: maxPricePerCall, set: setMaxPricePerCall, mono: false },
+    { label: "Valid until", value: validUntil, set: setValidUntil, mono: false },
+  ];
+
   return (
-    <div className="page">
-      <section className="card stack">
-        <p className="eyebrow">Human policy signing</p>
-        <h2>Create one bounded DelegationPolicy</h2>
-        <p className="muted">{status}</p>
-        <div className="actions">
-          <button className="button" onClick={connectWallet} type="button">
-            Connect wallet
+    <div className="subpage">
+      {/* header */}
+      <section className="subpage-hero">
+        <span className="section-label">DELEGATE</span>
+        <h1 className="subpage-title">Create one bounded DelegationPolicy</h1>
+        <p className="subpage-subtitle">{status}</p>
+        <div className="subpage-actions">
+          <button
+            className={`btn-primary ${isConnected ? "btn-connected" : ""}`}
+            onClick={connectWallet}
+            type="button"
+          >
+            <span className="btn-dot" />
+            {isConnected ? "Connected" : "Connect wallet"}
           </button>
-          <button className="button secondary" onClick={buildAndSign} type="button">
+          <button className="btn-secondary" onClick={buildAndSign} type="button">
             Build and sign
           </button>
         </div>
       </section>
 
-      <section className="grid two">
-        <div className="card stack">
-          <label className="label">
-            Human owner
-            <input value={humanOwner} onChange={(event) => setHumanOwner(event.target.value as `0x${string}`)} />
-          </label>
-          <label className="label">
-            Agent wallet
-            <input value={agentWallet} onChange={(event) => setAgentWallet(event.target.value as `0x${string}`)} />
-          </label>
-          <label className="label">
-            Spender wallet
-            <input value={spenderWallet} onChange={(event) => setSpenderWallet(event.target.value as `0x${string}`)} />
-          </label>
-          <label className="label">
-            Token
-            <input value={token} onChange={(event) => setToken(event.target.value as `0x${string}`)} />
-          </label>
-          <label className="label">
-            Max total spend
-            <input value={maxTotalSpend} onChange={(event) => setMaxTotalSpend(event.target.value)} />
-          </label>
-          <label className="label">
-            Max price per call
-            <input value={maxPricePerCall} onChange={(event) => setMaxPricePerCall(event.target.value)} />
-          </label>
-          <label className="label">
-            Valid until
-            <input value={validUntil} onChange={(event) => setValidUntil(event.target.value)} />
-          </label>
+      {/* form + output */}
+      <section className="subpage-grid two">
+        <div className="subpage-card">
+          <h3 className="card-heading">Policy parameters</h3>
+          <div className="field-list">
+            {fields.map((f) => (
+              <label key={f.label} className="field">
+                <span className="field-label">{f.label}</span>
+                <input
+                  className={`field-input ${f.mono ? "field-mono" : ""}`}
+                  value={f.value}
+                  onChange={(e) => f.set(e.target.value as any)}
+                />
+              </label>
+            ))}
+          </div>
         </div>
 
-        <div className="stack">
-          <div className="card stack">
-            <h3>Unsigned preview</h3>
-            <pre className="mono">{preview || "Build a preview to inspect the canonical policy object."}</pre>
+        <div className="output-stack">
+          <div className="subpage-card">
+            <div className="card-heading-row">
+              <h3 className="card-heading">Unsigned preview</h3>
+              {preview && <span className="status-dot status-pending" />}
+            </div>
+            <pre className="code-block">{preview || "Build a preview to inspect the canonical policy object."}</pre>
           </div>
-          <div className="card stack">
-            <h3>Signed policy</h3>
-            <pre className="mono">{signedPolicy || "The signed DelegationPolicy will appear here."}</pre>
+          <div className="subpage-card">
+            <div className="card-heading-row">
+              <h3 className="card-heading">Signed policy</h3>
+              {signedPolicy && <span className="status-dot status-success" />}
+            </div>
+            <pre className="code-block">{signedPolicy || "The signed DelegationPolicy will appear here."}</pre>
           </div>
         </div>
       </section>

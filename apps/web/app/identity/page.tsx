@@ -7,20 +7,31 @@ export default async function IdentityPage() {
   ]);
 
   return (
-    <div className="page">
-      <section className="card stack">
-        <p className="eyebrow">Identity</p>
-        <h2>ERC-8004-compatible profile</h2>
+    <div className="subpage">
+      {/* header */}
+      <section className="subpage-hero">
+        <span className="section-label">DISCOVER</span>
+        <h1 className="subpage-title">ERC-8004-compatible identity</h1>
+        <p className="subpage-subtitle">
+          Agent profile and registration JSON — exposed for network-wide discovery without coupling to payment.
+        </p>
       </section>
 
-      <section className="grid two">
-        <div className="card stack">
-          <h3>Agent profile</h3>
-          <pre className="mono">{JSON.stringify(profile, null, 2)}</pre>
+      {/* data grid */}
+      <section className="subpage-grid two">
+        <div className="subpage-card">
+          <div className="card-heading-row">
+            <h3 className="card-heading">Agent profile</h3>
+            <span className="card-badge">/agent-profile</span>
+          </div>
+          <pre className="code-block">{JSON.stringify(profile, null, 2)}</pre>
         </div>
-        <div className="card stack">
-          <h3>Registration JSON</h3>
-          <pre className="mono">{JSON.stringify(registration, null, 2)}</pre>
+        <div className="subpage-card">
+          <div className="card-heading-row">
+            <h3 className="card-heading">Registration JSON</h3>
+            <span className="card-badge">/.well-known</span>
+          </div>
+          <pre className="code-block">{JSON.stringify(registration, null, 2)}</pre>
         </div>
       </section>
     </div>
