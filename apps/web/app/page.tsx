@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import DotField from "./DotField";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    CONCENTRIC RING DATA
@@ -182,10 +183,11 @@ const pillars = [
 export default function HomePage() {
   return (
     <div className="page-root">
+      {/* ── GLOBAL DOT FIELD BACKGROUND ── */}
+      <DotField />
+
       {/* ── IMMERSIVE HERO ── */}
       <section className="hero-immersive">
-        <div className="hero-bg" />
-        <div className="hero-grain" />
 
         {/* concentric rings */}
         <div className="rings-container">
