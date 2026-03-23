@@ -57,7 +57,7 @@ function getDemoInput(): HiddenEdgeScanInput {
     requestedNotionalUsd: readNumberEnv("GROWTHBASE_DEMO_REQUESTED_NOTIONAL_USD", 100),
     maxCandidates: readNumberEnv("GROWTHBASE_DEMO_MAX_CANDIDATES", 10),
     riskMode: process.env.GROWTHBASE_DEMO_RISK_MODE ?? "standard",
-    maxBookAgeMs: readNumberEnv("GROWTHBASE_DEMO_MAX_BOOK_AGE_MS", 5000)
+    maxBookAgeMs: readNumberEnv("GROWTHBASE_DEMO_MAX_BOOK_AGE_MS", 10000)
   });
 }
 
