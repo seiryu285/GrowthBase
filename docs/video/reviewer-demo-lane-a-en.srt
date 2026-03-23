@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:05,000
+GrowthBase lets agents buy machine-readable services over public HTTPS and receive verifiable delivery.
+
+2
+00:00:05,000 --> 00:00:18,000
+Agents can discover public services from a live HTTPS endpoint.
+
+3
+00:00:18,000 --> 00:00:35,000
+This command creates a public success lane, waits for the public endpoint to become reachable, and runs an external purchase + verification flow.
+
+4
+00:00:35,000 --> 00:00:55,000
+The external purchase completes, a receipt is issued, an on-chain transaction is recorded, and the result verifies successfully.
+
+5
+00:00:55,000 --> 00:01:05,000
+Every successful run leaves durable machine-readable evidence.
+
+6
+00:01:05,000 --> 00:01:25,000
+This verification bundle can be stored, shared, and inspected later.
+
+7
+00:01:25,000 --> 00:01:35,000
+GrowthBase turns one agent action into paid execution, machine-readable delivery, and durable trust.
+
+8
+00:01:35,000 --> 00:01:40,000
+Lane A = reproducible public success · Lane B = live fail-closed safety preserved
