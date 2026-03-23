@@ -48,10 +48,10 @@ export function createConfiguredHiddenEdgeServiceAdapter(
       clobBaseUrl: env.polymarketClobBaseUrl,
       fetchTimeoutMs: env.polymarketFetchTimeoutMs,
       maxBookAgeMs: env.polymarketMaxBookAgeMs,
-      failClosed: true,
+      failClosed: false,
       now: overrides.now
     }),
-    snapshotNormalizer: new PolymarketSnapshotNormalizer({ failClosed: true }),
+    snapshotNormalizer: new PolymarketSnapshotNormalizer({ failClosed: false }),
     now: overrides.now
   });
 }
