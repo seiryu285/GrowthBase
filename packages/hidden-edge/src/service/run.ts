@@ -116,12 +116,14 @@ export function createHiddenEdgeRunner(args: {
       }
 
       const discovery = await args.marketDiscovery.discover(input);
-      const marketData = await args.marketData.fetchMarketData(discovery.descriptors, input);
 
+      // Pre-payment check: only verify markets are discoverable.
+      // Book freshness is enforced in run() after payment succeeds.
       return {
-        sourceMode: marketData.sourceMode,
+        sourceMode: "live",
         replayed: false,
-        checkedAt: marketData.fetchedAt
+        checkedAt: now().toISOString(),
+        marketsDiscovered: discovery.descriptors.length
       };
     },
     async run({ database, policyId, agentWallet, input }) {
