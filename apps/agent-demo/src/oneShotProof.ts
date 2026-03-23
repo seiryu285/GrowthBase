@@ -3,9 +3,6 @@ import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
-import { createDatabase, runMigrations } from "@growthbase/db";
-import { reconstructTransaction } from "@growthbase/receipt";
-
 import {
   buildHiddenEdgePurchaseBody,
   createDemoAgentIdentity,
@@ -13,6 +10,7 @@ import {
   createSignedPolicy,
   fetchGrowthHistory,
   fetchReceipt,
+  fetchVerifyBundle,
   getApiBaseUrl,
   probeHiddenEdgePurchase,
   purchaseHiddenEdgeScan
@@ -24,7 +22,7 @@ const DEFAULT_INPUT = {
   requestedNotionalUsd: 100,
   maxCandidates: 5,
   riskMode: "standard",
-  maxBookAgeMs: 15000
+  maxBookAgeMs: 10000
 } as const;
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
@@ -57,64 +55,57 @@ async function main() {
   });
   const receipt = await fetchReceipt(purchase.receiptId, apiBaseUrl);
   const growthHistory = await fetchGrowthHistory(agentIdentity.agentWallet, apiBaseUrl);
+  const reconstruction = await fetchVerifyBundle(purchase.receiptId, apiBaseUrl);
 
-  const database = createDatabase(process.env.DATABASE_URL);
-  await runMigrations(database);
+  const output = {
+    proofLabel,
+    apiBaseUrl,
+    nonce,
+    input,
+    unpaid: {
+      status: unpaid.status,
+      challengeHeaderPresent: Boolean(unpaidChallenge)
+    },
+    paid: {
+      status: 200,
+      receiptId: purchase.receiptId,
+      deliveryStatus: purchase.deliveryStatus
+    },
+    receipt: {
+      receiptId: receipt.receiptId,
+      receiptHash: receipt.receiptHash,
+      requestHash: receipt.requestHash,
+      artifactHash: receipt.artifactHash,
+      snapshotHash: receipt.snapshotHash,
+      proofHash: receipt.proofHash,
+      paymentResponse: receipt.paymentResponse
+    },
+    artifact: {
+      scanId: purchase.artifact.scanId,
+      snapshotId: purchase.artifact.snapshotId,
+      asOf: purchase.artifact.asOf,
+      marketsScanned: purchase.artifact.marketsScanned,
+      marketsEligible: purchase.artifact.marketsEligible,
+      topCandidate: purchase.artifact.candidates[0] ?? null
+    },
+    snapshot: {
+      snapshotId: reconstruction.snapshot.snapshotId,
+      asOf: reconstruction.snapshot.asOf,
+      sourceMode: reconstruction.snapshot.sourceMode ?? null,
+      fetchedAt: reconstruction.snapshot.fetchedAt ?? null,
+      provenance: reconstruction.snapshot.provenance ?? null,
+      marketCount: reconstruction.snapshot.markets.length
+    },
+    growth: {
+      latestReceiptId: growthHistory[0]?.receiptId ?? null,
+      latestServiceId: growthHistory[0]?.serviceId ?? null,
+      entryCount: growthHistory.length
+    },
+    verification: reconstruction.verification
+  };
 
-  try {
-    const reconstruction = await reconstructTransaction(database, purchase.receiptId);
-    const output = {
-      proofLabel,
-      apiBaseUrl,
-      nonce,
-      input,
-      unpaid: {
-        status: unpaid.status,
-        challengeHeaderPresent: Boolean(unpaidChallenge)
-      },
-      paid: {
-        status: 200,
-        receiptId: purchase.receiptId,
-        deliveryStatus: purchase.deliveryStatus
-      },
-      receipt: {
-        receiptId: receipt.receiptId,
-        receiptHash: receipt.receiptHash,
-        requestHash: receipt.requestHash,
-        artifactHash: receipt.artifactHash,
-        snapshotHash: receipt.snapshotHash,
-        proofHash: receipt.proofHash,
-        paymentResponse: receipt.paymentResponse
-      },
-      artifact: {
-        scanId: purchase.artifact.scanId,
-        snapshotId: purchase.artifact.snapshotId,
-        asOf: purchase.artifact.asOf,
-        marketsScanned: purchase.artifact.marketsScanned,
-        marketsEligible: purchase.artifact.marketsEligible,
-        topCandidate: purchase.artifact.candidates[0] ?? null
-      },
-      snapshot: {
-        snapshotId: reconstruction.snapshot.snapshotId,
-        asOf: reconstruction.snapshot.asOf,
-        sourceMode: reconstruction.snapshot.sourceMode ?? null,
-        fetchedAt: reconstruction.snapshot.fetchedAt ?? null,
-        provenance: reconstruction.snapshot.provenance ?? null,
-        marketCount: reconstruction.snapshot.markets.length
-      },
-      growth: {
-        latestReceiptId: growthHistory[0]?.receiptId ?? null,
-        latestServiceId: growthHistory[0]?.serviceId ?? null,
-        entryCount: growthHistory.length
-      },
-      verification: reconstruction.verification
-    };
-
-    const outputPath = writeProofOutput(proofLabel, purchase.receiptId, output);
-    console.log(JSON.stringify({ ...output, outputPath }, null, 2));
-  } finally {
-    database.close();
-  }
+  const outputPath = writeProofOutput(proofLabel, purchase.receiptId, output);
+  console.log(JSON.stringify({ ...output, outputPath }, null, 2));
 }
 
 function loadInput() {
