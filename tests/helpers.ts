@@ -31,6 +31,9 @@ import { createSellerIdentity } from "../apps/api/src/services/profile";
 export const humanAccount = privateKeyToAccount("0x59c6995e998f97a5a0044966f094538c5f8fb9d5392b6f0dff78eaef918a1960");
 export const agentAccount = privateKeyToAccount("0x8b3a350cf5c34c9194ca4e293f4b25d1ce058c6b05c9010d6ea3dcb3ce1f4b54");
 export const spenderAccount = privateKeyToAccount("0x0dbbe8f4f4b9b7cbdeb18f0bc33bd583a14bc58c41cab36161f245d36b2b1f7f");
+export const alternateSpenderAccount = privateKeyToAccount(
+  "0x47e179ec1974889357c4e8dcedd732f2b4f6df4e6f3ef2f0f0d6bb3a4b911d8d"
+);
 
 export type FixtureTracker = {
   discoveryCalls: number;
@@ -50,7 +53,7 @@ export function createTestEnv(): ApiEnv {
     polymarketEventSlugs: [],
     polymarketMarketSlugs: [],
     polymarketFetchTimeoutMs: 8000,
-    polymarketMaxBookAgeMs: 5000,
+    polymarketMaxBookAgeMs: 15000,
     x402Network: "eip155:8453",
     x402PriceAtomic: "50000",
     x402PayTo: "0x1111111111111111111111111111111111111111",
@@ -61,7 +64,14 @@ export function createTestEnv(): ApiEnv {
     agentWallet: "0x3333333333333333333333333333333333333333",
     sellerWallet: "0x1111111111111111111111111111111111111111",
     sellerImage: "https://placehold.co/600x600/png",
-    apiBaseUrl: "http://growthbase.test"
+    demoUniverse: "auto",
+    demoSidePolicy: "BOTH",
+    demoRequestedNotionalUsd: 100,
+    demoMaxCandidates: 10,
+    demoRiskMode: "standard",
+    demoMaxBookAgeMs: 15000,
+    apiBaseUrl: "http://growthbase.test",
+    publicWebAppUrl: "http://growthbase.test"
   };
 }
 
@@ -82,7 +92,6 @@ export async function createSignedPolicy(overrides?: Partial<ReturnType<typeof c
     chainId: 8453,
     humanOwner: humanAccount.address,
     agentWallet: agentAccount.address,
-    spenderWallet: spenderAccount.address,
     token: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     maxTotalSpend: "1.00",
     maxPricePerCall: "0.05",
@@ -103,6 +112,16 @@ export async function createSignedPolicy(overrides?: Partial<ReturnType<typeof c
   return attachDelegationSignature(unsigned, signature);
 }
 
+export function createPaidFetch(fetchImpl: typeof fetch, env: ApiEnv, signer: typeof spenderAccount = spenderAccount) {
+  const client = new x402Client();
+  registerExactEvmScheme(client, {
+    signer,
+    networks: [env.x402Network]
+  });
+
+  return wrapFetchWithPayment(fetchImpl, client);
+}
+
 export function createHiddenEdgeInput(overrides?: Partial<HiddenEdgeScanInput>): HiddenEdgeScanInput {
   return {
     universe: "auto",
@@ -110,7 +129,7 @@ export function createHiddenEdgeInput(overrides?: Partial<HiddenEdgeScanInput>):
     requestedNotionalUsd: 100,
     maxCandidates: 10,
     riskMode: "standard",
-    maxBookAgeMs: 5000,
+    maxBookAgeMs: 15000,
     ...overrides
   };
 }
@@ -140,13 +159,7 @@ export async function createTestHarness() {
     return app.request(input instanceof URL ? input.toString() : input, init);
   };
 
-  const client = new x402Client();
-  registerExactEvmScheme(client, {
-    signer: spenderAccount,
-    networks: [env.x402Network]
-  });
-
-  const paidFetch = wrapFetchWithPayment(appFetch, client);
+  const paidFetch = createPaidFetch(appFetch, env);
 
   return {
     app,
@@ -155,6 +168,7 @@ export async function createTestHarness() {
     database,
     env,
     paidFetch,
+    createPaidFetch: (signer: typeof spenderAccount = spenderAccount) => createPaidFetch(appFetch, env, signer),
     close: () => database.close()
   };
 }

@@ -1,0 +1,16 @@
+{
+  "serviceId": "polymarket-hidden-edge-scan",
+  "title": "Polymarket Hidden Edge Scan",
+  "description": "A read-only market intelligence service that scans public Polymarket data, ranks candidates deterministically, and returns a typed artifact with proof linkage.",
+  "pricing": {
+    "scheme": "x402",
+    "network": "base",
+    "currency": "USDC"
+  },
+  "artifactType": "hidden-edge-scan",
+  "delivery": {
+    "mode": "sync",
+    "typed": true,
+    "receiptLinked": true
+  }
+}

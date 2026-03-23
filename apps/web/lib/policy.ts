@@ -13,7 +13,7 @@ export const defaultPolicyForm = {
 export function createPolicyPreview(args: {
   humanOwner: `0x${string}`;
   agentWallet: `0x${string}`;
-  spenderWallet: `0x${string}`;
+  spenderWallet?: `0x${string}`;
   token: `0x${string}`;
   maxTotalSpend: string;
   maxPricePerCall: string;

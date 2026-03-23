@@ -4,7 +4,7 @@ import { SCHEMA_VERSION } from "@growthbase/core";
 import { createHiddenEdgeServiceAdapter } from "@growthbase/hidden-edge";
 import { computeCommerceReceiptHash, computeRequestHash } from "@growthbase/receipt";
 
-import { createHiddenEdgeInput, createSignedPolicy, createTestEnv, createTestAgentIdentity } from "../helpers";
+import { createHiddenEdgeInput, createSignedPolicy, createTestEnv, createTestAgentIdentity, spenderAccount } from "../helpers";
 import { createSellerIdentity } from "../../apps/api/src/services/profile";
 
 describe("receipt", () => {
@@ -31,7 +31,7 @@ describe("receipt", () => {
       policyId: policy.policyId,
       policyHash: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       humanOwner: policy.humanOwner,
-      buyerWallet: policy.spenderWallet,
+      buyerWallet: spenderAccount.address,
       agentWallet: policy.agentWallet,
       agentIdentity,
       sellerWallet: offer.sellerWallet,
@@ -40,7 +40,7 @@ describe("receipt", () => {
       requestHash,
       paymentScheme: "exact",
       paymentNetwork: "eip155:8453",
-      paymentResponse: { transaction: "0x1" },
+      paymentResponse: { payer: spenderAccount.address, transaction: "0x1" },
       price: offer.price,
       currency: offer.currency,
       artifactHash: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
@@ -56,7 +56,7 @@ describe("receipt", () => {
       policyId: policy.policyId,
       policyHash: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       humanOwner: policy.humanOwner,
-      buyerWallet: policy.spenderWallet,
+      buyerWallet: spenderAccount.address,
       agentWallet: policy.agentWallet,
       agentIdentity,
       sellerWallet: offer.sellerWallet,
@@ -65,7 +65,7 @@ describe("receipt", () => {
       requestHash,
       paymentScheme: "exact",
       paymentNetwork: "eip155:8453",
-      paymentResponse: { transaction: "0x1" },
+      paymentResponse: { payer: spenderAccount.address, transaction: "0x1" },
       price: offer.price,
       currency: offer.currency,
       artifactHash: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",

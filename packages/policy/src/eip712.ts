@@ -1,7 +1,7 @@
 import type { TypedData, TypedDataDomain } from "viem";
 
 import type { DelegationPolicy, UnsignedDelegationPolicy } from "@growthbase/core";
-import { POLICY_EIP712_NAME, POLICY_EIP712_VERSION } from "@growthbase/core";
+import { OPEN_PAYER_SENTINEL_ADDRESS, POLICY_EIP712_NAME, POLICY_EIP712_VERSION } from "@growthbase/core";
 
 export const delegationPolicyTypedData = {
   DelegationPolicy: [
@@ -35,7 +35,8 @@ export function getDelegationPolicyMessage(policy: DelegationPolicy | UnsignedDe
     chainId: BigInt(policy.chainId),
     humanOwner: policy.humanOwner as `0x${string}`,
     agentWallet: policy.agentWallet as `0x${string}`,
-    spenderWallet: policy.spenderWallet as `0x${string}`,
+    // EIP-712 types are static, so open-payer mode is signed as the reserved sentinel address.
+    spenderWallet: (policy.spenderWallet ?? OPEN_PAYER_SENTINEL_ADDRESS) as `0x${string}`,
     token: policy.token as `0x${string}`,
     maxTotalSpend: policy.maxTotalSpend,
     maxPricePerCall: policy.maxPricePerCall,

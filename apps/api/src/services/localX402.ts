@@ -224,7 +224,10 @@ export async function createPaymentServer(env: ApiEnv, serviceAdapter: ServiceAd
       unpaidResponseBody: () => ({
         contentType: "application/json",
         body: createErrorEnvelope("PAYMENT_REQUIRED", "Payment is required before delivery.", {
-          serviceId: offer.serviceId
+          serviceId: offer.serviceId,
+          purchaseSpecUrl: `${env.apiBaseUrl}/purchase/${offer.serviceId}`,
+          requiredBodyFields: ["policy", "agentIdentity", "input"],
+          openPayerDefault: true
         })
       }),
       settlementFailedResponseBody: (_context, settleResult) => ({

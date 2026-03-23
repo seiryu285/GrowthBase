@@ -20,5 +20,13 @@ describe("identity", () => {
     expect(registration.type).toBe("https://eips.ethereum.org/EIPS/eip-8004#registration-v1");
     expect(registration.registrations[0]?.agentRegistry).toBe(profile.identity.agentRegistry);
     expect(registration.x402Support).toBe(true);
+    expect(profile.services).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: "purchase-spec",
+          endpoint: `${env.apiBaseUrl}/purchase/${offer.serviceId}`
+        })
+      ])
+    );
   });
 });

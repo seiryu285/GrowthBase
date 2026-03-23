@@ -41,10 +41,10 @@ Two seams are explicit in code.
 
 This seam isolates GrowthBase from service-specific execution.
 
-- Boundary: [`apps/api/src/services/serviceAdapter.ts`](/C:/Users/blued/Downloads/GrowthBase/apps/api/src/services/serviceAdapter.ts)
-- Hidden Edge implementation: [`packages/hidden-edge/src/service/index.ts`](/C:/Users/blued/Downloads/GrowthBase/packages/hidden-edge/src/service/index.ts)
-- Offer definition: [`packages/hidden-edge/src/service/offer.ts`](/C:/Users/blued/Downloads/GrowthBase/packages/hidden-edge/src/service/offer.ts)
-- Paid execution: [`packages/hidden-edge/src/service/run.ts`](/C:/Users/blued/Downloads/GrowthBase/packages/hidden-edge/src/service/run.ts)
+- Boundary: [`apps/api/src/services/serviceAdapter.ts`](../apps/api/src/services/serviceAdapter.ts)
+- Hidden Edge implementation: [`packages/hidden-edge/src/service/index.ts`](../packages/hidden-edge/src/service/index.ts)
+- Offer definition: [`packages/hidden-edge/src/service/offer.ts`](../packages/hidden-edge/src/service/offer.ts)
+- Paid execution: [`packages/hidden-edge/src/service/run.ts`](../packages/hidden-edge/src/service/run.ts)
 
 `apps/api` only needs a `ServiceAdapter` with:
 
@@ -59,20 +59,20 @@ This keeps GrowthBase in control of policy enforcement, x402, receipts, growth h
 
 This seam isolates the Hidden Edge core logic from Polymarket-specific API shapes.
 
-- discovery interface: [`packages/hidden-edge/src/adapters/marketDiscovery.ts`](/C:/Users/blued/Downloads/GrowthBase/packages/hidden-edge/src/adapters/marketDiscovery.ts)
-- data interface: [`packages/hidden-edge/src/adapters/marketData.ts`](/C:/Users/blued/Downloads/GrowthBase/packages/hidden-edge/src/adapters/marketData.ts)
-- normalizer interface: [`packages/hidden-edge/src/adapters/snapshotNormalizer.ts`](/C:/Users/blued/Downloads/GrowthBase/packages/hidden-edge/src/adapters/snapshotNormalizer.ts)
+- discovery interface: [`packages/hidden-edge/src/adapters/marketDiscovery.ts`](../packages/hidden-edge/src/adapters/marketDiscovery.ts)
+- data interface: [`packages/hidden-edge/src/adapters/marketData.ts`](../packages/hidden-edge/src/adapters/marketData.ts)
+- normalizer interface: [`packages/hidden-edge/src/adapters/snapshotNormalizer.ts`](../packages/hidden-edge/src/adapters/snapshotNormalizer.ts)
 
 P0 implements only Polymarket:
 
-- [`packages/hidden-edge/src/adapters/polymarket/discovery.ts`](/C:/Users/blued/Downloads/GrowthBase/packages/hidden-edge/src/adapters/polymarket/discovery.ts)
-- [`packages/hidden-edge/src/adapters/polymarket/data.ts`](/C:/Users/blued/Downloads/GrowthBase/packages/hidden-edge/src/adapters/polymarket/data.ts)
-- [`packages/hidden-edge/src/adapters/polymarket/normalize.ts`](/C:/Users/blued/Downloads/GrowthBase/packages/hidden-edge/src/adapters/polymarket/normalize.ts)
+- [`packages/hidden-edge/src/adapters/polymarket/discovery.ts`](../packages/hidden-edge/src/adapters/polymarket/discovery.ts)
+- [`packages/hidden-edge/src/adapters/polymarket/data.ts`](../packages/hidden-edge/src/adapters/polymarket/data.ts)
+- [`packages/hidden-edge/src/adapters/polymarket/normalize.ts`](../packages/hidden-edge/src/adapters/polymarket/normalize.ts)
 
 Feature building and ranking depend only on normalized snapshot types:
 
-- [`packages/hidden-edge/src/core/features.ts`](/C:/Users/blued/Downloads/GrowthBase/packages/hidden-edge/src/core/features.ts)
-- [`packages/hidden-edge/src/core/ranking.ts`](/C:/Users/blued/Downloads/GrowthBase/packages/hidden-edge/src/core/ranking.ts)
+- [`packages/hidden-edge/src/core/features.ts`](../packages/hidden-edge/src/core/features.ts)
+- [`packages/hidden-edge/src/core/ranking.ts`](../packages/hidden-edge/src/core/ranking.ts)
 
 That is the future-proof boundary for additional markets.
 

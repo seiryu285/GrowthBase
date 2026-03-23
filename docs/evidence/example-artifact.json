@@ -1,0 +1,33 @@
+{
+  "scanId": "scan_demo_001",
+  "asOf": "2026-03-23T00:00:00.000Z",
+  "snapshotId": "snapshot_demo_001",
+  "engineVersion": "v1",
+  "featureVersion": "v1",
+  "scoringVersion": "v1",
+  "marketsScanned": 120,
+  "marketsEligible": 18,
+  "candidates": [
+    {
+      "rank": 1,
+      "marketId": "market_demo_001",
+      "recommendedSide": "YES",
+      "marketProbability": 0.42,
+      "fairValueLow": 0.46,
+      "fairValueHigh": 0.49,
+      "entryLevel": 0.43,
+      "hiddenEdgeBps": 400,
+      "safeSize": 25,
+      "score": 0.91,
+      "reasonCodes": ["MISPRICED", "LIQUID", "WITHIN_POLICY"],
+      "action": "BUY",
+      "expiresAt": "2026-03-23T00:10:00.000Z"
+    }
+  ],
+  "proof": {
+    "requestHash": "0xrequesthashdemo",
+    "artifactHash": "0xartifacthashdemo",
+    "snapshotHash": "0xsnapshothashdemo",
+    "proofHash": "0xproofhashdemo"
+  }
+}

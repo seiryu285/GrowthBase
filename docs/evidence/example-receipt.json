@@ -1,0 +1,15 @@
+{
+  "receiptId": "receipt_demo_001",
+  "serviceId": "polymarket-hidden-edge-scan",
+  "network": "base",
+  "paymentScheme": "x402",
+  "currency": "USDC",
+  "agentWallet": "0xAgentWalletDemo",
+  "sellerWallet": "0xSellerWalletDemo",
+  "requestHash": "0xrequesthashdemo",
+  "artifactHash": "0xartifacthashdemo",
+  "snapshotHash": "0xsnapshothashdemo",
+  "proofHash": "0xproofhashdemo",
+  "deliveredAt": "2026-03-23T00:00:05.000Z",
+  "status": "completed"
+}

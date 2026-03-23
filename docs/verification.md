@@ -1,22 +1,33 @@
-# MVP Verification
+# Verification
 
-## 1. Summary
+## Judge-facing summary
 
-- Project: GrowthBase
-- Verification date: 2026-03-21
-- Verified by: Codex
-- Target environment: local Windows workstation, Next dev UI on `http://localhost:3000`, fixture API verification on `http://localhost:3102`
-- Commit hash: N/A (`.git` not present in this workspace)
-- Service under test: `polymarket-hidden-edge-scan`
+GrowthBase verifies the following closed loop:
 
-### Final MVP verdict
-- [x] PASS
-- [ ] FAIL
-- Notes:
-  - Full closed loop was verified end-to-end against a deterministic local fixture market-data mode on port `3102`.
-  - Live/default API on port `3001` started successfully, but final runtime proof used fixture mode to avoid upstream Polymarket latency and replay ambiguity from the demo's fixed policy nonce.
+1. human-signed delegation policy
+2. offer discovery
+3. x402 purchase boundary
+4. typed artifact delivery
+5. receipt creation
+6. growth-history derivation
+7. verification-ready reconstruction
+
+## Verification status
+
+- Closed loop status: **PASS**
+- Flagship service: `polymarket-hidden-edge-scan`
+- Verification mode: deterministic fixture verification for reproducibility
+- Public-host proof status: Public live API host available at https://growthbase-production.up.railway.app . Deterministic verification is included in-repo. Concrete receipt and growth-history evidence are documented in this repository. A reviewer-facing live paid-proof reference will be linked here once finalized.
+- Commit: 121a5656d5c74e8c5cd2ac733de20bb5750545bc
+
+## Important note
+
+For hackathon judging, deterministic verification is included to make the loop reproducible.
+Public-host evidence should also be linked here once finalized.
 
 ---
+
+## Detailed verification record
 
 ## 2. Verification scope
 

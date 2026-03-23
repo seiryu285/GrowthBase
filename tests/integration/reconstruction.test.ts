@@ -33,6 +33,16 @@ describe("reconstruction", () => {
     const receipt = (await receiptResponse.json()) as Record<string, unknown>;
     const reconstructed = await reconstructTransaction(harness.database, receiptId);
 
+    const verifyBundleResponse = await harness.app.request(`http://growthbase.test/receipts/${receiptId}/verify-bundle`);
+    const verifyBundle = (await verifyBundleResponse.json()) as {
+      verificationReport: { passed: boolean; checks: Array<{ id: string; pass: boolean }> };
+    };
+
+    expect(verifyBundleResponse.status).toBe(200);
+    expect(verifyBundle.verificationReport.passed).toBe(true);
+    expect(verifyBundle.verificationReport.checks.length).toBeGreaterThan(0);
+    expect(verifyBundle.verificationReport.checks.every((c) => c.pass)).toBe(true);
+
     expect(receiptResponse.status).toBe(200);
     expect(receipt.serviceId).toBe(SERVICE_ID);
     expect(receipt.requestHash).toMatch(/^0x[a-f0-9]{64}$/);

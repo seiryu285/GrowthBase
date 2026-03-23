@@ -24,7 +24,7 @@ const DEFAULT_INPUT = {
   requestedNotionalUsd: 100,
   maxCandidates: 5,
   riskMode: "standard",
-  maxBookAgeMs: 5000
+  maxBookAgeMs: 15000
 } as const;
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));

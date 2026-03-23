@@ -24,8 +24,8 @@ export function createConfiguredHiddenEdgeServiceAdapter(
     return createHiddenEdgeServiceAdapter({
       sellerWallet: env.sellerWallet,
       sellerIdentity,
-      marketDiscovery: createFixtureMarketDiscoveryAdapter(),
-      marketData: createFixtureMarketDataAdapter(),
+      marketDiscovery: createFixtureMarketDiscoveryAdapter(overrides.now),
+      marketData: createFixtureMarketDataAdapter(overrides.now),
       snapshotNormalizer: new PolymarketSnapshotNormalizer(),
       now: overrides.now
     });

@@ -44,10 +44,11 @@ const FIXTURE_DESCRIPTORS: RawMarketDescriptor[] = [
   }
 ];
 
-export function createFixtureMarketDiscoveryAdapter(): MarketDiscoveryAdapter {
+export function createFixtureMarketDiscoveryAdapter(now: () => Date = () => new Date()): MarketDiscoveryAdapter {
+
   return {
     async discover(input: HiddenEdgeScanInput) {
-      const observedAt = new Date().toISOString();
+      const observedAt = now().toISOString();
 
       return {
         selector:
@@ -70,10 +71,11 @@ export function createFixtureMarketDiscoveryAdapter(): MarketDiscoveryAdapter {
   };
 }
 
-export function createFixtureMarketDataAdapter(): MarketDataAdapter {
+export function createFixtureMarketDataAdapter(now: () => Date = () => new Date()): MarketDataAdapter {
+
   return {
     async fetchMarketData(descriptors) {
-      const observedAt = new Date().toISOString();
+      const observedAt = now().toISOString();
 
       return {
         observedAt,

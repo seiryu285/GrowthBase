@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "pnpm --filter @growthbase/db db:migrate && pnpm --filter @growthbase/api start",
+    "startCommand": "mkdir -p /app/data && pnpm --filter @growthbase/db db:migrate && pnpm --filter @growthbase/api start",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
   }

@@ -16,7 +16,7 @@ declare global {
 export default function PolicyPage() {
   const [humanOwner, setHumanOwner] = useState<`0x${string}` | "">("");
   const [agentWallet, setAgentWallet] = useState<`0x${string}` | "">("0x3333333333333333333333333333333333333333");
-  const [spenderWallet, setSpenderWallet] = useState<`0x${string}` | "">("0x4444444444444444444444444444444444444444");
+  const [spenderWallet, setSpenderWallet] = useState<`0x${string}` | "">("");
   const [token, setToken] = useState<`0x${string}` | "">(defaultPolicyForm.token as `0x${string}`);
   const [maxTotalSpend, setMaxTotalSpend] = useState(defaultPolicyForm.maxTotalSpend);
   const [maxPricePerCall, setMaxPricePerCall] = useState(defaultPolicyForm.maxPricePerCall);
@@ -43,13 +43,16 @@ export default function PolicyPage() {
   }
 
   async function buildAndSign() {
-    if (!window.ethereum || !humanOwner || !agentWallet || !spenderWallet || !token) {
+    if (!window.ethereum || !humanOwner || !agentWallet || !token) {
       setStatus("Missing wallet connection or required addresses.");
       return;
     }
     const client = createWalletClient({ transport: custom(window.ethereum) });
     const unsignedPolicy = createPolicyPreview({
-      humanOwner, agentWallet, spenderWallet, token,
+      humanOwner,
+      agentWallet,
+      spenderWallet: spenderWallet || undefined,
+      token,
       maxTotalSpend, maxPricePerCall, validUntil
     });
     setPreview(JSON.stringify(unsignedPolicy, null, 2));
@@ -70,7 +73,7 @@ export default function PolicyPage() {
   const fields = [
     { label: "Human owner", value: humanOwner, set: setHumanOwner, mono: true },
     { label: "Agent wallet", value: agentWallet, set: setAgentWallet, mono: true },
-    { label: "Spender wallet", value: spenderWallet, set: setSpenderWallet, mono: true },
+    { label: "Spender wallet (optional)", value: spenderWallet, set: setSpenderWallet, mono: true },
     { label: "Token", value: token, set: setToken, mono: true },
     { label: "Max total spend", value: maxTotalSpend, set: setMaxTotalSpend, mono: false },
     { label: "Max price per call", value: maxPricePerCall, set: setMaxPricePerCall, mono: false },

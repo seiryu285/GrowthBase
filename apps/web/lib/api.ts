@@ -1,9 +1,11 @@
 import { createDatabase, runMigrations } from "@growthbase/db";
 
+import { LIVE_API_BASE_URL } from "./site";
+
 let databasePromise: Promise<ReturnType<typeof createDatabase>> | null = null;
 
 export function getApiBaseUrl() {
-  return process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001";
+  return process.env.NEXT_PUBLIC_API_BASE_URL ?? LIVE_API_BASE_URL;
 }
 
 export async function fetchApiJson<T>(pathname: string): Promise<T> {

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { deliveryStatusSchema } from "./enums";
+import { deliveryStatusSchema, errorCodeSchema } from "./enums";
 import {
   ARTIFACT_KIND,
   ARTIFACT_SCHEMA_VERSION,
@@ -20,6 +20,12 @@ import {
 } from "./versions";
 
 const addressSchema = z.string().regex(/^0x[a-fA-F0-9]{40}$/, "Expected an EVM address");
+export const OPEN_PAYER_SENTINEL_ADDRESS = "0x0000000000000000000000000000000000000000" as const;
+const fixedSpenderWalletSchema = addressSchema.refine(
+  (value) => value.toLowerCase() !== OPEN_PAYER_SENTINEL_ADDRESS,
+  "Zero address is reserved for open payer mode"
+);
+const optionalSpenderWalletSchema = z.preprocess((value) => value ?? undefined, fixedSpenderWalletSchema.optional());
 const hashSchema = z.string().regex(/^0x[a-fA-F0-9]{64}$/, "Expected a 32-byte hex hash");
 const atomicStringSchema = z.string().regex(/^\d+$/, "Expected an atomic-unit integer string");
 const isoTimestampSchema = z.string().datetime({ offset: true });
@@ -69,8 +75,8 @@ export const hiddenEdgeInputJsonSchema = {
     maxBookAgeMs: {
       type: "integer",
       minimum: 1000,
-      maximum: 10000,
-      default: 5000
+      maximum: 15000,
+      default: 15000
     }
   }
 } as const;
@@ -178,7 +184,7 @@ export const delegationPolicySchema = z
     chainId: z.number().int().positive(),
     humanOwner: addressSchema,
     agentWallet: addressSchema,
-    spenderWallet: addressSchema,
+    spenderWallet: optionalSpenderWalletSchema,
     token: addressSchema,
     maxTotalSpend: z.string().min(1),
     maxPricePerCall: z.string().min(1),
@@ -223,7 +229,7 @@ export const hiddenEdgeInputSchema = z
     requestedNotionalUsd: z.number().min(1).max(10000),
     maxCandidates: z.number().int().min(1).max(20),
     riskMode: z.enum(["conservative", "standard", "aggressive"]),
-    maxBookAgeMs: z.number().int().min(1000).max(10000)
+    maxBookAgeMs: z.number().int().min(1000).max(15000)
   })
   .strict();
 
@@ -406,6 +412,42 @@ export const purchaseRequestRecordSchema = z
   })
   .strict();
 
+export const paidArtifactFailureDeliveryStatusSchema = z.literal("PAID_BUT_ARTIFACT_FAILED");
+export const paidArtifactFailureExecutionOutcomeSchema = z.literal("PAYMENT_ACCEPTED_ARTIFACT_FAILED");
+
+export const paidArtifactFailureRecordSchema = z
+  .object({
+    failureId: z.string().min(1),
+    policyId: z.string().min(1),
+    policyHash: hashSchema,
+    requestHash: hashSchema,
+    serviceId: z.literal(SERVICE_ID),
+    humanOwner: addressSchema,
+    buyerWallet: addressSchema,
+    agentWallet: addressSchema,
+    agentIdentity: agentIdentityRefSchema,
+    sellerWallet: addressSchema,
+    sellerIdentity: agentIdentityRefSchema,
+    paymentScheme: z.string().min(1),
+    paymentNetwork: z.string().min(1),
+    paymentAsset: addressSchema,
+    paymentResponse: jsonObjectSchema,
+    price: atomicStringSchema,
+    currency: z.string().min(1),
+    transactionHash: hashSchema,
+    executionOutcome: paidArtifactFailureExecutionOutcomeSchema,
+    deliveryStatus: paidArtifactFailureDeliveryStatusSchema,
+    failureCode: errorCodeSchema,
+    failureMessage: z.string().min(1),
+    failureDetails: jsonObjectSchema,
+    timestamp: isoTimestampSchema,
+    schemaVersion: schemaVersionSchema,
+    policy: delegationPolicySchema,
+    request: purchaseRequestRecordSchema,
+    offer: serviceOfferSchema
+  })
+  .strict();
+
 export type DelegationPolicy = z.infer<typeof delegationPolicySchema>;
 export type UnsignedDelegationPolicy = z.infer<typeof unsignedDelegationPolicySchema>;
 export type AgentIdentityRef = z.infer<typeof agentIdentityRefSchema>;
@@ -419,5 +461,6 @@ export type NormalizedMarketSnapshot = z.infer<typeof normalizedMarketSnapshotSc
 export type PersistedNormalizedSnapshot = z.infer<typeof persistedNormalizedSnapshotSchema>;
 export type ServiceRunRecord = z.infer<typeof serviceRunRecordSchema>;
 export type CommerceReceipt = z.infer<typeof commerceReceiptSchema>;
+export type PaidArtifactFailureRecord = z.infer<typeof paidArtifactFailureRecordSchema>;
 export type GrowthHistoryEntry = z.infer<typeof growthHistoryEntrySchema>;
 export type PurchaseRequestRecord = z.infer<typeof purchaseRequestRecordSchema>;

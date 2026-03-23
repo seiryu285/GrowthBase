@@ -22,8 +22,10 @@ type PolicyDraftInput = Omit<UnsignedDelegationPolicy, "policyId" | "schemaVersi
 };
 
 export function createUnsignedDelegationPolicy(input: PolicyDraftInput): UnsignedDelegationPolicy {
+  const spenderWallet = input.spenderWallet ?? undefined;
   const draft = unsignedDelegationPolicySchema.parse({
     ...input,
+    spenderWallet,
     policyId:
       input.policyId ??
       shortHashId(
@@ -31,7 +33,7 @@ export function createUnsignedDelegationPolicy(input: PolicyDraftInput): Unsigne
         hashCanonicalValue({
           humanOwner: input.humanOwner,
           agentWallet: input.agentWallet,
-          spenderWallet: input.spenderWallet,
+          spenderWallet,
           nonce: input.nonce,
           chainId: input.chainId
         })

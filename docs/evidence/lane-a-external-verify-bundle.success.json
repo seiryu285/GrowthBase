@@ -1,0 +1,693 @@
+{
+  "generatedAt": "2026-03-23T04:51:53.683Z",
+  "proofKind": "external-verify-bundle",
+  "outcome": "success",
+  "apiBaseUrl": "https://performance-worth-classical-reality.trycloudflare.com",
+  "serviceId": "polymarket-hidden-edge-scan",
+  "purchase": {
+    "receiptId": "receipt_9bdaebc54d5c7679",
+    "transactionId": "0x0cc36e526df881afb7c5c11f6e88652ec199fa84f1a90e7c4a7f34787b4b5e86",
+    "verifyUrl": "https://growthbase-web.vercel.app/verify?receiptId=receipt_9bdaebc54d5c7679",
+    "deliveryStatus": "DELIVERED",
+    "artifact": {
+      "scanId": "a0ec0982-6c4e-5804-8ea3-f012b5667b60",
+      "asOf": "2026-03-23T04:51:53.005Z",
+      "snapshotId": "345ccc30-cfc2-5f2a-8888-70e8c207b02f",
+      "engineVersion": "hidden-edge-engine/1",
+      "featureVersion": "hidden-edge-features/1",
+      "scoringVersion": "hidden-edge-score/1",
+      "marketsScanned": 2,
+      "marketsEligible": 1,
+      "candidates": [
+        {
+          "rank": 1,
+          "marketId": "market-election-a",
+          "eventId": "event-election",
+          "marketSlug": "candidate-a-win",
+          "eventTitle": "Will Candidate A win?",
+          "recommendedSide": "YES",
+          "marketProb": 0.57,
+          "fairLow": 0.57,
+          "fairMid": 0.595,
+          "fairHigh": 0.62,
+          "allInEntry": 0.58,
+          "hiddenEdgeBps": 150,
+          "maxSafeSizeUsd": 100,
+          "score": 168.88,
+          "reasonCodes": [
+            "EDGE_POSITIVE",
+            "BOOK_FRESH",
+            "SIZE_AVAILABLE",
+            "HISTORY_ANCHORED"
+          ],
+          "action": "ENTER_NOW",
+          "expiresAt": "2026-03-23T04:52:03.005Z"
+        }
+      ]
+    },
+    "proof": {
+      "artifact_hash": "0x2dc7893f5739a09822a84c057b8558ecbc33e3445e12b619d40f764e20ca1e99",
+      "snapshot_hash": "0x345ccc30cfc2ef2af88870e8c207b02f61c88bc77a8a7f7c8b0a877bdb01445c",
+      "snapshot_id": "345ccc30-cfc2-5f2a-8888-70e8c207b02f",
+      "request_hash": "0x45f2f2dd5e5cef95802aa6e75132ebcea489f1283ddd9f66f9cb820593f55c46",
+      "engine_version": "hidden-edge-engine/1",
+      "feature_version": "hidden-edge-features/1",
+      "scoring_version": "hidden-edge-score/1",
+      "generated_at": "2026-03-23T04:51:53.005Z",
+      "artifact_kind": "hidden_edge_scan_result"
+    }
+  },
+  "receipt": {
+    "receiptId": "receipt_9bdaebc54d5c7679",
+    "policyId": "policy_fd9c22e8d446b296",
+    "policyHash": "0xe4e2743ff4f917b18ed7743890b259c269b4372cf51574ce86bfbbfefa17aab8",
+    "humanOwner": "0x0F41fa320D27F2B97B7a57424A9009Bfd9a8559F",
+    "buyerWallet": "0x425A8960A99C127fEB4d541b12E09352845797F8",
+    "agentWallet": "0xa7Bcd671a7169A10bA761CD7e583CCe7BCD844b6",
+    "agentIdentity": {
+      "standard": "ERC-8004",
+      "agentRegistry": "eip155:8453:0x9999999999999999999999999999999999999999",
+      "agentId": "9001",
+      "agentURI": "https://demo.growthbase.local/agent.json",
+      "agentWallet": "0xa7Bcd671a7169A10bA761CD7e583CCe7BCD844b6",
+      "schemaVersion": "1"
+    },
+    "sellerWallet": "0x1111111111111111111111111111111111111111",
+    "sellerIdentity": {
+      "standard": "ERC-8004",
+      "agentRegistry": "eip155:8453:0x2222222222222222222222222222222222222222",
+      "agentId": "1",
+      "agentURI": "https://competitive-freebsd-restoration-alternatively.trycloudflare.com/.well-known/agent-registration.json",
+      "agentWallet": "0x3333333333333333333333333333333333333333",
+      "schemaVersion": "1"
+    },
+    "serviceId": "polymarket-hidden-edge-scan",
+    "requestHash": "0x45f2f2dd5e5cef95802aa6e75132ebcea489f1283ddd9f66f9cb820593f55c46",
+    "paymentScheme": "exact",
+    "paymentNetwork": "eip155:8453",
+    "paymentResponse": {
+      "success": true,
+      "transaction": "0x0cc36e526df881afb7c5c11f6e88652ec199fa84f1a90e7c4a7f34787b4b5e86",
+      "network": "eip155:8453",
+      "extensions": {
+        "localSettlement": {
+          "mode": "deterministic-local"
+        }
+      },
+      "payer": "0x425A8960A99C127fEB4d541b12E09352845797F8",
+      "replayed": false
+    },
+    "price": "50000",
+    "currency": "USDC",
+    "artifactHash": "0x2dc7893f5739a09822a84c057b8558ecbc33e3445e12b619d40f764e20ca1e99",
+    "snapshotHash": "0x345ccc30cfc2ef2af88870e8c207b02f61c88bc77a8a7f7c8b0a877bdb01445c",
+    "proofHash": "0xc2c3b0a96c3cf6db2326686bd420a7e3f57cf5f5755d0e12c16e46d3c6f5d516",
+    "deliveryStatus": "DELIVERED",
+    "timestamp": "2026-03-23T04:51:53.011Z",
+    "receiptHash": "0xda8d53560abb3e29d443f239cdf18f85300171b09c03223953724b430d811015",
+    "schemaVersion": "1"
+  },
+  "verifyBundle": {
+    "policy": {
+      "policyId": "policy_fd9c22e8d446b296",
+      "chainId": 8453,
+      "humanOwner": "0x0F41fa320D27F2B97B7a57424A9009Bfd9a8559F",
+      "agentWallet": "0xa7Bcd671a7169A10bA761CD7e583CCe7BCD844b6",
+      "token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "maxTotalSpend": "1.00",
+      "maxPricePerCall": "0.05",
+      "validFrom": "2026-03-23T04:50:52.658Z",
+      "validUntil": "2026-03-23T05:51:52.658Z",
+      "allowedServices": [
+        "polymarket-hidden-edge-scan"
+      ],
+      "nonce": "lane-a-public-tunnel-verify-2026-03-23-1774241512657-cc51ec32",
+      "signature": "0x102e46aaebd3f2d4efdc43c294d81083994b91b991c3d288b4cfe85456bcf5d1494813ce9d41de5822cf0e18d9ae99e908847ef4c661d0140cd27ddbd988bead1c",
+      "schemaVersion": "1"
+    },
+    "offer": {
+      "serviceId": "polymarket-hidden-edge-scan",
+      "capabilityId": "hidden_edge_scan_polymarket",
+      "version": "v1",
+      "network": "eip155:8453",
+      "sellerWallet": "0x1111111111111111111111111111111111111111",
+      "sellerIdentity": {
+        "standard": "ERC-8004",
+        "agentRegistry": "eip155:8453:0x2222222222222222222222222222222222222222",
+        "agentId": "1",
+        "agentURI": "https://competitive-freebsd-restoration-alternatively.trycloudflare.com/.well-known/agent-registration.json",
+        "agentWallet": "0x3333333333333333333333333333333333333333",
+        "schemaVersion": "1"
+      },
+      "price": "50000",
+      "currency": "USDC",
+      "paymentMethod": "x402_v2",
+      "category": "market_intelligence",
+      "tags": [
+        "polymarket",
+        "scanner",
+        "hidden-edge",
+        "prediction-market",
+        "entry",
+        "agents"
+      ],
+      "bodyType": "application/json",
+      "inputSchema": {
+        "$id": "hypergrowth://polymarket-hidden-edge-scan/schemas/input/1",
+        "type": "object",
+        "required": [
+          "universe",
+          "sidePolicy",
+          "requestedNotionalUsd",
+          "maxCandidates",
+          "riskMode",
+          "maxBookAgeMs"
+        ],
+        "properties": {
+          "universe": {
+            "type": "string",
+            "description": "auto | tag:{id|slug} | search:{query}",
+            "default": "auto"
+          },
+          "sidePolicy": {
+            "type": "string",
+            "enum": [
+              "YES_ONLY",
+              "NO_ONLY",
+              "BOTH"
+            ],
+            "default": "BOTH"
+          },
+          "requestedNotionalUsd": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 10000,
+            "default": 100
+          },
+          "maxCandidates": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20,
+            "default": 10
+          },
+          "riskMode": {
+            "type": "string",
+            "enum": [
+              "conservative",
+              "standard",
+              "aggressive"
+            ],
+            "default": "standard"
+          },
+          "maxBookAgeMs": {
+            "type": "integer",
+            "minimum": 1000,
+            "maximum": 15000,
+            "default": 15000
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "required": [
+          "artifact",
+          "proof",
+          "receiptId",
+          "deliveryStatus"
+        ],
+        "properties": {
+          "artifact": {
+            "$id": "hypergrowth://polymarket-hidden-edge-scan/schemas/artifact/1",
+            "type": "object",
+            "required": [
+              "scanId",
+              "asOf",
+              "snapshotId",
+              "engineVersion",
+              "featureVersion",
+              "scoringVersion",
+              "marketsScanned",
+              "marketsEligible",
+              "candidates"
+            ],
+            "properties": {
+              "scanId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "asOf": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "snapshotId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "engineVersion": {
+                "type": "string"
+              },
+              "featureVersion": {
+                "type": "string"
+              },
+              "scoringVersion": {
+                "type": "string"
+              },
+              "marketsScanned": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "marketsEligible": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "candidates": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "rank",
+                    "marketId",
+                    "eventId",
+                    "marketSlug",
+                    "eventTitle",
+                    "recommendedSide",
+                    "marketProb",
+                    "fairLow",
+                    "fairMid",
+                    "fairHigh",
+                    "allInEntry",
+                    "hiddenEdgeBps",
+                    "maxSafeSizeUsd",
+                    "score",
+                    "reasonCodes",
+                    "action",
+                    "expiresAt"
+                  ],
+                  "properties": {
+                    "rank": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "marketId": {
+                      "type": "string"
+                    },
+                    "eventId": {
+                      "type": "string"
+                    },
+                    "marketSlug": {
+                      "type": "string"
+                    },
+                    "eventTitle": {
+                      "type": "string"
+                    },
+                    "recommendedSide": {
+                      "type": "string",
+                      "enum": [
+                        "YES",
+                        "NO"
+                      ]
+                    },
+                    "marketProb": {
+                      "type": "number"
+                    },
+                    "fairLow": {
+                      "type": "number"
+                    },
+                    "fairMid": {
+                      "type": "number"
+                    },
+                    "fairHigh": {
+                      "type": "number"
+                    },
+                    "allInEntry": {
+                      "type": "number"
+                    },
+                    "hiddenEdgeBps": {
+                      "type": "integer"
+                    },
+                    "maxSafeSizeUsd": {
+                      "type": "number"
+                    },
+                    "score": {
+                      "type": "number"
+                    },
+                    "reasonCodes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "action": {
+                      "type": "string",
+                      "enum": [
+                        "ENTER_NOW",
+                        "WATCH_CLOSE",
+                        "SKIP"
+                      ]
+                    },
+                    "expiresAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "proof": {
+            "$id": "hypergrowth://polymarket-hidden-edge-scan/schemas/proof/1",
+            "type": "object",
+            "required": [
+              "artifact_hash",
+              "snapshot_hash",
+              "snapshot_id",
+              "request_hash",
+              "engine_version",
+              "feature_version",
+              "scoring_version",
+              "generated_at",
+              "artifact_kind"
+            ],
+            "properties": {
+              "artifact_hash": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{64}$"
+              },
+              "snapshot_hash": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{64}$"
+              },
+              "snapshot_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "request_hash": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{64}$"
+              },
+              "engine_version": {
+                "type": "string"
+              },
+              "feature_version": {
+                "type": "string"
+              },
+              "scoring_version": {
+                "type": "string"
+              },
+              "generated_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "artifact_kind": {
+                "type": "string",
+                "const": "hidden_edge_scan_result"
+              }
+            }
+          },
+          "receiptId": {
+            "type": "string"
+          },
+          "deliveryStatus": {
+            "type": "string",
+            "enum": [
+              "DELIVERED"
+            ]
+          }
+        }
+      },
+      "artifactType": "hidden_edge_scan_result",
+      "contractVersions": {
+        "discovery": "v1",
+        "request_input": "1",
+        "artifact": "1",
+        "proof": "1",
+        "quote": "hl-a2a-quote/0.1",
+        "payment_required": "x402/v2",
+        "paid_run": "hl-a2a-service-run/1"
+      },
+      "schemaVersion": "1"
+    },
+    "request": {
+      "policyId": "policy_fd9c22e8d446b296",
+      "serviceId": "polymarket-hidden-edge-scan",
+      "agentWallet": "0xa7Bcd671a7169A10bA761CD7e583CCe7BCD844b6",
+      "input": {
+        "universe": "auto",
+        "sidePolicy": "BOTH",
+        "requestedNotionalUsd": 100,
+        "maxCandidates": 10,
+        "riskMode": "standard",
+        "maxBookAgeMs": 10000
+      },
+      "schemaVersion": "1"
+    },
+    "snapshot": {
+      "snapshotId": "345ccc30-cfc2-5f2a-8888-70e8c207b02f",
+      "asOf": "2026-03-23T04:51:53.005Z",
+      "requestHash": "0x45f2f2dd5e5cef95802aa6e75132ebcea489f1283ddd9f66f9cb820593f55c46",
+      "universe": "auto",
+      "sourceMode": "fixture",
+      "fetchedAt": "2026-03-23T04:51:53.005Z",
+      "provenance": {
+        "discovery": {
+          "source": "fixture",
+          "selector": "auto",
+          "descriptorCount": 2
+        },
+        "marketData": {
+          "source": "fixture",
+          "recordCount": 2
+        }
+      },
+      "markets": [
+        {
+          "snapshotId": "345ccc30-cfc2-5f2a-8888-70e8c207b02f",
+          "marketId": "market-election-a",
+          "eventId": "event-election",
+          "marketSlug": "candidate-a-win",
+          "eventTitle": "Will Candidate A win?",
+          "yesTokenId": "yes-election-a",
+          "noTokenId": "no-election-a",
+          "bestYesBid": 0.56,
+          "bestYesBidSize": 200,
+          "bestYesAsk": 0.58,
+          "bestYesAskSize": 180,
+          "bestNoBid": 0.41,
+          "bestNoBidSize": 190,
+          "bestNoAsk": 0.43,
+          "bestNoAskSize": 170,
+          "midProbYes": 0.57,
+          "midProbNo": 0.42,
+          "historyMeanYes": 0.62,
+          "historyMeanNo": 0.38,
+          "feeBps": 20,
+          "tickSize": 0.01,
+          "observedAt": "2026-03-23T04:51:53.005Z",
+          "rawRefs": {
+            "source": "fixture",
+            "eventId": "event-election",
+            "marketId": "market-election-a"
+          }
+        },
+        {
+          "snapshotId": "345ccc30-cfc2-5f2a-8888-70e8c207b02f",
+          "marketId": "market-sports-b",
+          "eventId": "event-sports",
+          "marketSlug": "team-b-playoffs",
+          "eventTitle": "Will Team B make the playoffs?",
+          "yesTokenId": "yes-sports-b",
+          "noTokenId": "no-sports-b",
+          "bestYesBid": 0.45,
+          "bestYesBidSize": 60,
+          "bestYesAsk": 0.49,
+          "bestYesAskSize": 50,
+          "bestNoBid": 0.52,
+          "bestNoBidSize": 55,
+          "bestNoAsk": 0.56,
+          "bestNoAskSize": 45,
+          "midProbYes": 0.47,
+          "midProbNo": 0.54,
+          "historyMeanYes": 0.47,
+          "historyMeanNo": 0.53,
+          "feeBps": 25,
+          "tickSize": 0.01,
+          "observedAt": "2026-03-23T04:51:53.005Z",
+          "rawRefs": {
+            "source": "fixture",
+            "eventId": "event-sports",
+            "marketId": "market-sports-b"
+          }
+        }
+      ],
+      "schemaVersion": "1"
+    },
+    "artifact": {
+      "scanId": "a0ec0982-6c4e-5804-8ea3-f012b5667b60",
+      "asOf": "2026-03-23T04:51:53.005Z",
+      "snapshotId": "345ccc30-cfc2-5f2a-8888-70e8c207b02f",
+      "engineVersion": "hidden-edge-engine/1",
+      "featureVersion": "hidden-edge-features/1",
+      "scoringVersion": "hidden-edge-score/1",
+      "marketsScanned": 2,
+      "marketsEligible": 1,
+      "candidates": [
+        {
+          "rank": 1,
+          "marketId": "market-election-a",
+          "eventId": "event-election",
+          "marketSlug": "candidate-a-win",
+          "eventTitle": "Will Candidate A win?",
+          "recommendedSide": "YES",
+          "marketProb": 0.57,
+          "fairLow": 0.57,
+          "fairMid": 0.595,
+          "fairHigh": 0.62,
+          "allInEntry": 0.58,
+          "hiddenEdgeBps": 150,
+          "maxSafeSizeUsd": 100,
+          "score": 168.88,
+          "reasonCodes": [
+            "EDGE_POSITIVE",
+            "BOOK_FRESH",
+            "SIZE_AVAILABLE",
+            "HISTORY_ANCHORED"
+          ],
+          "action": "ENTER_NOW",
+          "expiresAt": "2026-03-23T04:52:03.005Z"
+        }
+      ]
+    },
+    "proof": {
+      "artifact_hash": "0x2dc7893f5739a09822a84c057b8558ecbc33e3445e12b619d40f764e20ca1e99",
+      "snapshot_hash": "0x345ccc30cfc2ef2af88870e8c207b02f61c88bc77a8a7f7c8b0a877bdb01445c",
+      "snapshot_id": "345ccc30-cfc2-5f2a-8888-70e8c207b02f",
+      "request_hash": "0x45f2f2dd5e5cef95802aa6e75132ebcea489f1283ddd9f66f9cb820593f55c46",
+      "engine_version": "hidden-edge-engine/1",
+      "feature_version": "hidden-edge-features/1",
+      "scoring_version": "hidden-edge-score/1",
+      "generated_at": "2026-03-23T04:51:53.005Z",
+      "artifact_kind": "hidden_edge_scan_result"
+    },
+    "receipt": {
+      "receiptId": "receipt_9bdaebc54d5c7679",
+      "policyId": "policy_fd9c22e8d446b296",
+      "policyHash": "0xe4e2743ff4f917b18ed7743890b259c269b4372cf51574ce86bfbbfefa17aab8",
+      "humanOwner": "0x0F41fa320D27F2B97B7a57424A9009Bfd9a8559F",
+      "buyerWallet": "0x425A8960A99C127fEB4d541b12E09352845797F8",
+      "agentWallet": "0xa7Bcd671a7169A10bA761CD7e583CCe7BCD844b6",
+      "agentIdentity": {
+        "standard": "ERC-8004",
+        "agentRegistry": "eip155:8453:0x9999999999999999999999999999999999999999",
+        "agentId": "9001",
+        "agentURI": "https://demo.growthbase.local/agent.json",
+        "agentWallet": "0xa7Bcd671a7169A10bA761CD7e583CCe7BCD844b6",
+        "schemaVersion": "1"
+      },
+      "sellerWallet": "0x1111111111111111111111111111111111111111",
+      "sellerIdentity": {
+        "standard": "ERC-8004",
+        "agentRegistry": "eip155:8453:0x2222222222222222222222222222222222222222",
+        "agentId": "1",
+        "agentURI": "https://competitive-freebsd-restoration-alternatively.trycloudflare.com/.well-known/agent-registration.json",
+        "agentWallet": "0x3333333333333333333333333333333333333333",
+        "schemaVersion": "1"
+      },
+      "serviceId": "polymarket-hidden-edge-scan",
+      "requestHash": "0x45f2f2dd5e5cef95802aa6e75132ebcea489f1283ddd9f66f9cb820593f55c46",
+      "paymentScheme": "exact",
+      "paymentNetwork": "eip155:8453",
+      "paymentResponse": {
+        "success": true,
+        "transaction": "0x0cc36e526df881afb7c5c11f6e88652ec199fa84f1a90e7c4a7f34787b4b5e86",
+        "network": "eip155:8453",
+        "extensions": {
+          "localSettlement": {
+            "mode": "deterministic-local"
+          }
+        },
+        "payer": "0x425A8960A99C127fEB4d541b12E09352845797F8",
+        "replayed": false
+      },
+      "price": "50000",
+      "currency": "USDC",
+      "artifactHash": "0x2dc7893f5739a09822a84c057b8558ecbc33e3445e12b619d40f764e20ca1e99",
+      "snapshotHash": "0x345ccc30cfc2ef2af88870e8c207b02f61c88bc77a8a7f7c8b0a877bdb01445c",
+      "proofHash": "0xc2c3b0a96c3cf6db2326686bd420a7e3f57cf5f5755d0e12c16e46d3c6f5d516",
+      "deliveryStatus": "DELIVERED",
+      "timestamp": "2026-03-23T04:51:53.011Z",
+      "receiptHash": "0xda8d53560abb3e29d443f239cdf18f85300171b09c03223953724b430d811015",
+      "schemaVersion": "1"
+    },
+    "growthEntry": {
+      "agentWallet": "0xa7Bcd671a7169A10bA761CD7e583CCe7BCD844b6",
+      "receiptId": "receipt_9bdaebc54d5c7679",
+      "serviceId": "polymarket-hidden-edge-scan",
+      "artifactHash": "0x2dc7893f5739a09822a84c057b8558ecbc33e3445e12b619d40f764e20ca1e99",
+      "deliveryStatus": "DELIVERED",
+      "timestamp": "2026-03-23T04:51:53.011Z",
+      "candidatesReturned": 1,
+      "topCandidateAction": "ENTER_NOW",
+      "topCandidateScore": 168.88,
+      "schemaVersion": "1"
+    },
+    "verification": {
+      "policySignatureValid": true,
+      "policyHashValid": true,
+      "requestHashValid": true,
+      "artifactHashValid": true,
+      "snapshotHashValid": true,
+      "proofHashValid": true,
+      "proofLinksValid": true,
+      "receiptHashValid": true,
+      "fullyVerified": true
+    },
+    "verificationReport": {
+      "passed": true,
+      "checks": [
+        {
+          "id": "policySignatureValid",
+          "pass": true
+        },
+        {
+          "id": "policyHashValid",
+          "pass": true
+        },
+        {
+          "id": "requestHashValid",
+          "pass": true
+        },
+        {
+          "id": "artifactHashValid",
+          "pass": true
+        },
+        {
+          "id": "snapshotHashValid",
+          "pass": true
+        },
+        {
+          "id": "proofHashValid",
+          "pass": true
+        },
+        {
+          "id": "proofLinksValid",
+          "pass": true
+        },
+        {
+          "id": "receiptHashValid",
+          "pass": true
+        }
+      ]
+    }
+  },
+  "verification": {
+    "policySignatureValid": true,
+    "policyHashValid": true,
+    "requestHashValid": true,
+    "artifactHashValid": true,
+    "snapshotHashValid": true,
+    "proofHashValid": true,
+    "proofLinksValid": true,
+    "receiptHashValid": true,
+    "fullyVerified": true
+  }
+}

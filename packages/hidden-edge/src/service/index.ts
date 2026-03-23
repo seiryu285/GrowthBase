@@ -59,6 +59,7 @@ export function createHiddenEdgeServiceAdapter(options: CreateHiddenEdgeServiceA
     }),
     discovery: createHiddenEdgeDiscoveryMetadata(),
     parseInput: runner.parseInput,
+    assessServiceability: runner.assessServiceability,
     runPaid: runner.run,
     metrics
   };

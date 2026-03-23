@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import { drizzle, type BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -20,6 +21,22 @@ function isRelativeDatabasePath(value: string): boolean {
   return !value.startsWith(":") && !path.isAbsolute(value);
 }
 
+function isMisconfiguredWindowsPathOnPosix(normalized: string): boolean {
+  if (os.platform() === "win32") {
+    return false;
+  }
+
+  if (/^[a-zA-Z]:[/\\]/.test(normalized)) {
+    return true;
+  }
+
+  if (normalized.includes("Program Files")) {
+    return true;
+  }
+
+  return normalized.includes("/C:/") || normalized.includes("/C:\\");
+}
+
 export function resolveDatabaseFilename(databaseUrl?: string): string {
   const configured = databaseUrl?.trim();
 
@@ -27,7 +44,11 @@ export function resolveDatabaseFilename(databaseUrl?: string): string {
     return path.resolve(workspaceRoot, "data", "growthbase.sqlite");
   }
 
-  const normalized = configured.startsWith("file:") ? configured.slice(5) : configured;
+  let normalized = configured.startsWith("file:") ? configured.slice(5) : configured;
+
+  if (isMisconfiguredWindowsPathOnPosix(normalized)) {
+    return "/app/data/growthbase.sqlite";
+  }
 
   if (!isRelativeDatabasePath(normalized)) {
     return normalized;

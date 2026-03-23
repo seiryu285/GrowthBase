@@ -49,3 +49,9 @@ Desktop.ini
 
 # Codex logs
 .codex-logs/
+
+# IDE / Cursor
+.cursor/
+
+# Demo video clips (large binary, only final is in GitHub Release)
+docs/demo-video/

@@ -10,7 +10,7 @@ const envSchema = z.object({
   POLYMARKET_EVENT_SLUGS: z.string().optional(),
   POLYMARKET_MARKET_SLUGS: z.string().optional(),
   POLYMARKET_FETCH_TIMEOUT_MS: z.coerce.number().int().positive().default(8000),
-  POLYMARKET_MAX_BOOK_AGE_MS: z.coerce.number().int().positive().default(5000),
+  POLYMARKET_MAX_BOOK_AGE_MS: z.coerce.number().int().positive().default(15000),
   X402_NETWORK: z.string().default("eip155:8453"),
   X402_PRICE_ATOMIC: z.string().default("50000"),
   X402_PAY_TO: z.string().regex(/^0x[a-fA-F0-9]{40}$/).default("0x1111111111111111111111111111111111111111"),
@@ -21,7 +21,15 @@ const envSchema = z.object({
   AGENT_WALLET: z.string().regex(/^0x[a-fA-F0-9]{40}$/).default("0x3333333333333333333333333333333333333333"),
   SELLER_WALLET: z.string().regex(/^0x[a-fA-F0-9]{40}$/).default("0x1111111111111111111111111111111111111111"),
   SELLER_IMAGE: z.string().url().default("https://placehold.co/600x600/png"),
+  GROWTHBASE_DEMO_UNIVERSE: z.string().regex(/^(auto|tag:.+|search:.+)$/).default("auto"),
+  GROWTHBASE_DEMO_SIDE_POLICY: z.enum(["YES_ONLY", "NO_ONLY", "BOTH"]).default("BOTH"),
+  GROWTHBASE_DEMO_REQUESTED_NOTIONAL_USD: z.coerce.number().min(1).max(10000).default(100),
+  GROWTHBASE_DEMO_MAX_CANDIDATES: z.coerce.number().int().min(1).max(20).default(10),
+  GROWTHBASE_DEMO_RISK_MODE: z.enum(["conservative", "standard", "aggressive"]).default("standard"),
+  GROWTHBASE_DEMO_MAX_BOOK_AGE_MS: z.coerce.number().int().min(1000).max(15000).default(15000),
   API_BASE_URL: z.string().url().optional(),
+  /** Public web app origin (Vercel) for purchase verifyUrl links. */
+  PUBLIC_WEB_APP_URL: z.string().url().optional(),
   ANCHOR_PRIVATE_KEY: z.string().regex(/^0x[a-fA-F0-9]{64}$/).optional(),
   RECEIPT_ANCHOR_ADDRESS: z.string().regex(/^0x[a-fA-F0-9]{40}$/).optional()
 });
@@ -47,7 +55,15 @@ export type ApiEnv = {
   agentWallet: `0x${string}`;
   sellerWallet: `0x${string}`;
   sellerImage: string;
+  demoUniverse: string;
+  demoSidePolicy: "YES_ONLY" | "NO_ONLY" | "BOTH";
+  demoRequestedNotionalUsd: number;
+  demoMaxCandidates: number;
+  demoRiskMode: "conservative" | "standard" | "aggressive";
+  demoMaxBookAgeMs: number;
   apiBaseUrl: string;
+  /** Base URL of the public web app (no trailing slash). Used for verifyUrl on successful purchase. */
+  publicWebAppUrl: string;
   anchorPrivateKey?: `0x${string}`;
   receiptAnchorAddress?: `0x${string}`;
 };
@@ -76,7 +92,14 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): ApiEnv {
     agentWallet: parsed.AGENT_WALLET as `0x${string}`,
     sellerWallet: parsed.SELLER_WALLET as `0x${string}`,
     sellerImage: parsed.SELLER_IMAGE,
+    demoUniverse: parsed.GROWTHBASE_DEMO_UNIVERSE,
+    demoSidePolicy: parsed.GROWTHBASE_DEMO_SIDE_POLICY,
+    demoRequestedNotionalUsd: parsed.GROWTHBASE_DEMO_REQUESTED_NOTIONAL_USD,
+    demoMaxCandidates: parsed.GROWTHBASE_DEMO_MAX_CANDIDATES,
+    demoRiskMode: parsed.GROWTHBASE_DEMO_RISK_MODE,
+    demoMaxBookAgeMs: parsed.GROWTHBASE_DEMO_MAX_BOOK_AGE_MS,
     apiBaseUrl: parsed.API_BASE_URL ?? `http://localhost:${parsed.PORT}`,
+    publicWebAppUrl: (parsed.PUBLIC_WEB_APP_URL ?? "https://growthbase-web.vercel.app").replace(/\/$/, ""),
     anchorPrivateKey: parsed.ANCHOR_PRIVATE_KEY as `0x${string}` | undefined,
     receiptAnchorAddress: parsed.RECEIPT_ANCHOR_ADDRESS as `0x${string}` | undefined
   };

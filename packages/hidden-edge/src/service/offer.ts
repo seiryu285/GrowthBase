@@ -59,7 +59,7 @@ export function createHiddenEdgeDiscoveryMetadata() {
       requestedNotionalUsd: 100,
       maxCandidates: 10,
       riskMode: "standard",
-      maxBookAgeMs: 5000
+      maxBookAgeMs: 15000
     },
     contractVersions: CONTRACT_VERSION_BUNDLE,
     payment: {

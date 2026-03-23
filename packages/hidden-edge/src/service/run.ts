@@ -48,6 +48,12 @@ export type HiddenEdgeRunResult = {
   replayed: boolean;
 };
 
+export type ServiceabilityAssessment = {
+  sourceMode: "fixture" | "live" | "replay";
+  replayed: boolean;
+  checkedAt: string;
+};
+
 export type ServiceMetrics = {
   quoteCount: number;
   paidRunCount: number;
@@ -62,6 +68,12 @@ export type ServiceMetrics = {
 
 export type HiddenEdgeRunner = {
   parseInput(payload: unknown): HiddenEdgeScanInput;
+  assessServiceability(args: {
+    database: GrowthBaseDatabase;
+    policyId: string;
+    agentWallet: `0x${string}`;
+    input: HiddenEdgeScanInput;
+  }): Promise<ServiceabilityAssessment>;
   run(args: {
     database: GrowthBaseDatabase;
     policyId: string;
@@ -83,6 +95,34 @@ export function createHiddenEdgeRunner(args: {
   return {
     parseInput(payload: unknown) {
       return hiddenEdgeInputSchema.parse(payload);
+    },
+    async assessServiceability({ database, policyId, agentWallet, input }) {
+      const requestRecord = purchaseRequestRecordSchema.parse({
+        policyId,
+        serviceId: SERVICE_ID,
+        agentWallet,
+        input,
+        schemaVersion: SCHEMA_VERSION
+      });
+      const requestHash = computeRequestHash(requestRecord);
+      const replay = loadReplayResult(database, requestHash);
+
+      if (replay) {
+        return {
+          sourceMode: "replay",
+          replayed: true,
+          checkedAt: now().toISOString()
+        };
+      }
+
+      const discovery = await args.marketDiscovery.discover(input);
+      const marketData = await args.marketData.fetchMarketData(discovery.descriptors, input);
+
+      return {
+        sourceMode: marketData.sourceMode,
+        replayed: false,
+        checkedAt: marketData.fetchedAt
+      };
     },
     async run({ database, policyId, agentWallet, input }) {
       const startedAt = now();

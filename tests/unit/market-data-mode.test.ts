@@ -8,7 +8,8 @@ import { agentAccount, createHiddenEdgeInput, createTestEnv } from "../helpers";
 
 const FIXED_NOW = "2026-03-22T00:00:10.000Z";
 const FRESH_BOOK_TS = "2026-03-22T00:00:08.000Z";
-const STALE_BOOK_TS = "2026-03-21T23:59:59.000Z";
+const STALE_BOOK_TS = "2026-03-21T23:59:54.000Z";
+const LIVE_DEFAULT_MAX_BOOK_AGE_MS = 15000;
 const EVENT_SLUG = "fed-decision-in-october";
 
 describe("market-data runtime mode", () => {
@@ -52,7 +53,7 @@ describe("market-data runtime mode", () => {
       },
       marketData: {
         source: "polymarket-clob",
-        allowedBookAgeMs: 5000
+        allowedBookAgeMs: LIVE_DEFAULT_MAX_BOOK_AGE_MS
       }
     });
     expect(result.snapshot.markets[0]).toMatchObject({
@@ -92,6 +93,42 @@ describe("market-data runtime mode", () => {
       code: "ARTIFACT_GENERATION_FAILED",
       message: "Live Polymarket order book is stale."
     } satisfies Partial<GrowthBaseError>);
+  });
+
+  it("fails the pre-payment serviceability check when live books are already stale", async () => {
+    const database = createInMemoryDatabase();
+    cleanups.push(() => database.close());
+    await runMigrations(database);
+
+    const env = {
+      ...createTestEnv(),
+      marketDataMode: "live" as const,
+      polymarketGammaBaseUrl: "https://gamma.example",
+      polymarketClobBaseUrl: "https://clob.example",
+      polymarketEventSlugs: [EVENT_SLUG]
+    };
+    const service = createConfiguredHiddenEdgeServiceAdapter(env, {
+      fetchImpl: createPolymarketFetchMock({ bookTimestamp: STALE_BOOK_TS }),
+      now: () => new Date(FIXED_NOW)
+    });
+
+    await expect(
+      service.assessServiceability({
+        database,
+        policyId: "policy_live_preflight_stale",
+        agentWallet: agentAccount.address,
+        input: createHiddenEdgeInput()
+      })
+    ).rejects.toMatchObject({
+      code: "ARTIFACT_GENERATION_FAILED",
+      message: "Live Polymarket order book is stale."
+    } satisfies Partial<GrowthBaseError>);
+  });
+
+  it("uses the 15000ms live freshness default from env/runtime config", async () => {
+    const env = createTestEnv();
+
+    expect(env.polymarketMaxBookAgeMs).toBe(LIVE_DEFAULT_MAX_BOOK_AGE_MS);
   });
 
   it("uses fixture mode without touching live upstream fetches", async () => {

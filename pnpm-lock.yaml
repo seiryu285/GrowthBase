@@ -10,6 +10,10 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      '@x402/core':
+        specifier: ^2.7.0
+        version: 2.7.0
     devDependencies:
       '@growthbase/artifacts':
         specifier: workspace:*
@@ -173,6 +177,12 @@ importers:
       '@growthbase/receipt':
         specifier: workspace:*
         version: link:../../packages/receipt
+      '@x402/evm':
+        specifier: ^2.7.0
+        version: 2.7.0(typescript@5.9.3)
+      '@x402/fetch':
+        specifier: ^2.7.0
+        version: 2.7.0(typescript@5.9.3)
       next:
         specifier: ^15.3.0
         version: 15.5.14(react-dom@19.2.4(react@19.2.4))(react@19.2.4)

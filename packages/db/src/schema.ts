@@ -106,6 +106,46 @@ export const serviceRuns = sqliteTable(
   })
 );
 
+export const paidArtifactFailureRecords = sqliteTable(
+  "paid_artifact_failure_records",
+  {
+    failureId: text("failure_id").primaryKey(),
+    policyId: text("policy_id").notNull(),
+    policyHash: text("policy_hash").notNull(),
+    requestHash: text("request_hash").notNull(),
+    serviceId: text("service_id").notNull(),
+    humanOwner: text("human_owner").notNull(),
+    buyerWallet: text("buyer_wallet").notNull(),
+    agentWallet: text("agent_wallet").notNull(),
+    agentIdentityJson: text("agent_identity_json").notNull(),
+    sellerWallet: text("seller_wallet").notNull(),
+    sellerIdentityJson: text("seller_identity_json").notNull(),
+    paymentScheme: text("payment_scheme").notNull(),
+    paymentNetwork: text("payment_network").notNull(),
+    paymentAsset: text("payment_asset").notNull(),
+    paymentResponseJson: text("payment_response_json").notNull(),
+    price: text("price").notNull(),
+    currency: text("currency").notNull(),
+    transactionHash: text("transaction_hash").notNull(),
+    executionOutcome: text("execution_outcome").notNull(),
+    deliveryStatus: text("delivery_status").notNull(),
+    failureCode: text("failure_code").notNull(),
+    failureMessage: text("failure_message").notNull(),
+    failureDetailsJson: text("failure_details_json").notNull(),
+    timestamp: text("timestamp").notNull(),
+    schemaVersion: text("schema_version").notNull(),
+    policyJson: text("policy_json").notNull(),
+    requestJson: text("request_json").notNull(),
+    offerJson: text("offer_json").notNull()
+  },
+  (table) => ({
+    byRequestHash: index("paid_artifact_failure_records_request_hash_idx").on(table.requestHash),
+    byPolicyId: index("paid_artifact_failure_records_policy_id_idx").on(table.policyId),
+    byBuyerWallet: index("paid_artifact_failure_records_buyer_wallet_idx").on(table.buyerWallet),
+    byTransactionHash: index("paid_artifact_failure_records_transaction_hash_idx").on(table.transactionHash)
+  })
+);
+
 export const policyRevocations = sqliteTable(
   "policy_revocations",
   {

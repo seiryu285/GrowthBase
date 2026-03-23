@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
+
+import { DemoPurchaseRail } from "../components/DemoPurchaseRail";
 import DotField from "./DotField";
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -225,6 +227,11 @@ export default function HomePage() {
       {/* ── MANIFESTO ── */}
       <section className="manifesto">
         <div className="manifesto-inner">
+          <p className="manifesto-em">
+            GrowthBase lets a human delegate a paid task to an AI agent on Base,
+            cross the x402 purchase boundary, and verify the delivery with
+            receipts, proofs, and growth history.
+          </p>
           <p className="manifesto-lead">
             Humans want to delegate work to AI agents, but current infrastructure
             lacks safe permission controls, real-time cost tracking, and
@@ -241,6 +248,27 @@ export default function HomePage() {
             Growth Base is designed to be that substrate: a layer where every
             verified delivery makes the agent stronger.
           </p>
+          <p className="manifesto-body">
+            Reviewer path for a short demo video: <strong>Policy</strong> and{" "}
+            <strong>Identity</strong> for the agent component, then{" "}
+            <strong>Live</strong>, <strong>Artifact</strong>, <strong>Verify</strong>, and{" "}
+            <strong>Evidence</strong> for the paid boundary, proof surfaces, and
+            honest live limitation.
+          </p>
+        </div>
+      </section>
+
+      {/* ── DEMO PURCHASE (single-service reviewer path) ── */}
+      <section className="demo-purchase-section" aria-labelledby="demo-purchase-heading">
+        <div className="demo-purchase-section-inner">
+          <span className="section-label" id="demo-purchase-heading">
+            DEMO PURCHASE
+          </span>
+          <p className="demo-purchase-lead">
+            One deterministic service — <strong>Buy now</strong> runs the real <code className="inline-code">POST /purchase</code>{" "}
+            flow (402 → x402 payment → 200) via a server-side helper, then jump to Verify.
+          </p>
+          <DemoPurchaseRail />
         </div>
       </section>
 
@@ -282,6 +310,21 @@ export default function HomePage() {
           <span className="footer-divider">//</span>
           <span className="footer-sub">Receipt-first agent commerce</span>
         </div>
+        <nav className="footer-reviewer" aria-label="Public reviewer routes">
+          <Link href="/policy">Policy</Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/identity">Identity</Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/live">Live</Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/demo">Demo</Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/latest-artifact">Artifact</Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/verify">Verify</Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/evidence">Evidence</Link>
+        </nav>
       </footer>
     </div>
   );

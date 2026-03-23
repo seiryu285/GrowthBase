@@ -26,7 +26,8 @@ export function loadAgentProfile(env: ApiEnv, offer: ServiceOffer): AgentProfile
     services: [
       { name: "web", endpoint: `${env.apiBaseUrl.replace(":3001", ":3000")}/identity` },
       { name: "offers", endpoint: `${env.apiBaseUrl}/offers/${offer.serviceId}`, version: SCHEMA_VERSION },
-      { name: "x402", endpoint: `${env.apiBaseUrl}/purchase/${offer.serviceId}`, version: "2.0.0" }
+      { name: "x402", endpoint: `${env.apiBaseUrl}/purchase/${offer.serviceId}`, version: "2.0.0" },
+      { name: "purchase-spec", endpoint: `${env.apiBaseUrl}/purchase/${offer.serviceId}`, version: SCHEMA_VERSION }
     ],
     supportedTrust: ["policy-signature", "append-only-receipts", "hash-linked-artifacts", "snapshot-proof-linkage"]
   });
